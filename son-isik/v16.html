@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no" />
+<meta name="theme-color" content="#020403" />
+<meta name="description" content="SON IŞIK: Karanlığı Dinle. Karanlıkta kaybolan Elif'i ararken yalnızca fenerin gösterdiği dünya var. Korku ve ipuçlarıyla ilerleyen üç boyutlu kısa oyun." />
+<title>SON IŞIK V16 · KARANLIĞI DİNLE</title>
+<style>
+:root{color-scheme:dark;--ivory:#ebdfce;--mute:#aaa99c;--amber:#ddbc85;--line:rgba(225,206,166,.24);--paper:rgba(11,19,17,.91)}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:var(--ivory);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;touch-action:none;overscroll-behavior:none}button{appearance:none;border:1px solid var(--line);background:#14201cf0;color:var(--ivory);font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}button:focus-visible{outline:2px solid var(--amber);outline-offset:4px}button:disabled{opacity:.45;cursor:default}#app{position:relative;width:100%;height:100%;height:100dvh;background:#000;overflow:hidden;isolation:isolate}#stage{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none}#grain{position:absolute;inset:0;pointer-events:none;opacity:.055;background-image:url('data:image/svg+xml,%3Csvg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="g"%3E%3CfeTurbulence type="fractalNoise" baseFrequency=".87" numOctaves="2" seed="2"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23g)"/%3E%3C/svg%3E')}#edge{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 52%,transparent 28%,#0008 79%,#000 115%)}#ui{position:absolute;inset:0;pointer-events:none;z-index:2}#header{position:absolute;top:calc(14px + env(safe-area-inset-top));left:calc(16px + env(safe-area-inset-left));right:calc(16px + env(safe-area-inset-right));display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.eyebrow{font-weight:760;font-size:10px;letter-spacing:.33em;color:#b8ad93}.wordmark{font:normal 26px/1.1 Georgia,serif;letter-spacing:.14em;color:#f7e7cd;margin-top:4px}.minor{font-size:10px;letter-spacing:.12em;color:#afa898;margin-top:7px}#stats{display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:10px;white-space:nowrap;color:#ccc1ae}#stats span{padding:8px 10px;border:1px solid #aa956745;background:#080e0bd9;border-radius:3px}#stats strong{color:var(--amber)}#objective{position:absolute;top:calc(112px + env(safe-area-inset-top));left:calc(16px + env(safe-area-inset-left));max-width:min(350px,calc(100% - 32px));display:flex;align-items:center;gap:10px;font-size:12px;line-height:1.45;letter-spacing:.01em;color:#eadbc5;background:#111b16bf;border:1px solid #9b8f6a46;padding:11px 13px;border-radius:4px;transition:opacity .2s}#objectiveIcon{font-size:18px;color:var(--amber)}#objectiveText{max-width:310px}#caption{position:absolute;top:28%;left:50%;transform:translate(-50%,8px);width:min(86vw,570px);font:italic clamp(17px,4.4vw,23px)/1.5 Georgia,serif;letter-spacing:.01em;text-align:center;color:#f6e4c9;text-shadow:0 2px 20px #000,0 5px 22px #000;opacity:0;transition:opacity .35s,transform .4s}#caption.show{opacity:1;transform:translate(-50%,0)}#scanMeter{position:absolute;left:50%;bottom:calc(242px + env(safe-area-inset-bottom));width:min(240px,60vw);transform:translateX(-50%);pointer-events:none;opacity:0;transition:opacity .2s;text-align:center;color:#f1d9ae;font-size:10px;letter-spacing:.12em;text-shadow:0 2px 8px #000}#scanMeter.on{opacity:1}#scanTrack{height:3px;background:#74634482;margin-top:7px;overflow:hidden}#scanProgress{height:100%;width:0;background:#f3c57a;transform-origin:left center;transition:width .08s linear}#proximity{position:absolute;bottom:calc(211px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);font-size:12px;letter-spacing:.035em;padding:8px 12px;background:#0a110fae;border:1px solid #95816250;white-space:nowrap;opacity:0;transition:.2s}#proximity.show{opacity:1}#nudge{position:absolute;bottom:calc(167px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);text-align:center;max-width:75vw;font-size:10px;line-height:1.5;letter-spacing:.06em;color:#b8b4a5;opacity:.8}#bottom{position:absolute;left:calc(16px + env(safe-area-inset-left));right:calc(16px + env(safe-area-inset-right));bottom:calc(13px + env(safe-area-inset-bottom));display:flex;justify-content:space-between;align-items:flex-end;gap:14px}#joybase{width:126px;height:126px;flex:none;border-radius:50%;border:1px solid #d4c29953;background:radial-gradient(circle,#1e2722b9,#07100f99 75%);pointer-events:auto;touch-action:none;display:grid;place-items:center;position:relative;box-shadow:0 4px 22px #0008}#joybase:after{content:"";position:absolute;inset:22px;border-radius:50%;border:1px dashed #e6d2a536;pointer-events:none}#knob{width:49px;height:49px;border-radius:50%;border:1px solid #d6bb87aa;background:linear-gradient(130deg,#98825d,#3c4c40);box-shadow:0 4px 18px #000b;pointer-events:none}#buttons{pointer-events:auto;display:grid;grid-template-columns:60px 76px;grid-template-rows:56px 56px;gap:9px;align-items:center}#buttons button{height:56px;border-radius:8px;font-size:10px;font-weight:730;letter-spacing:.055em;touch-action:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;box-shadow:0 5px 18px #000a}#buttons button b{font-size:17px;line-height:1}#interact{grid-column:2;grid-row:1;background:#55432be6;border-color:#d6b6789f}#flash{grid-column:1;grid-row:1}#charge{grid-column:1;grid-row:2}#listen{grid-column:2;grid-row:2}#charge.pressed{background:#81643c}#flash.off{color:#9c9c93;border-color:#696d5b}#topTools{position:absolute;right:calc(15px + env(safe-area-inset-right));top:calc(180px + env(safe-area-inset-top));pointer-events:auto;display:flex;flex-direction:column;gap:8px}#topTools button{width:37px;height:37px;border-radius:3px;display:grid;place-items:center;font-size:17px;background:#0e1815e3}#soundCue{position:absolute;bottom:calc(150px + env(safe-area-inset-bottom));right:calc(14px + env(safe-area-inset-right));max-width:158px;text-align:right;font-size:10px;line-height:1.4;color:#e7d4b5;text-shadow:0 2px 9px #000;opacity:0;transition:.25s}#soundCue.on{opacity:1}#hurt{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(circle,transparent 38%,rgba(144,32,35,.35) 100%)}#hurt.on{opacity:1}#modalRoot{position:absolute;inset:0;z-index:10;display:grid;place-items:center;overflow:auto;padding:calc(20px + env(safe-area-inset-top)) calc(15px + env(safe-area-inset-right)) calc(20px + env(safe-area-inset-bottom)) calc(15px + env(safe-area-inset-left));background:radial-gradient(ellipse at 50% 30%,#13201cc9,#020605f8 84%);backdrop-filter:blur(10px)}#modalRoot.hidden{display:none}.panel{width:min(100%,450px);max-height:100%;overflow:auto;border:1px solid #a893685c;border-radius:5px;padding:clamp(25px,5vw,40px);background:linear-gradient(150deg,#19221eeb,#070e0de9);box-shadow:0 30px 70px #000d}.panel .tag{font-size:10px;font-weight:760;letter-spacing:.27em;color:#ba9e73}.panel h1{font:normal clamp(42px,9vw,63px)/.98 Georgia,serif;letter-spacing:.08em;margin:13px 0 9px;color:#f5e4c7}.panel h2{font:normal clamp(27px,6vw,38px)/1.12 Georgia,serif;margin:12px 0 18px;color:#f0d9b6}.panel p{font-size:13px;line-height:1.75;color:#d0ccbb;margin:12px 0}.panel p.lead{font:italic 17px/1.65 Georgia,serif;color:#efdec5}.panel .small{color:#aeb2a4;font-size:11px}.panel .note{border-left:2px solid #b8995b;padding:10px 14px;margin:19px 0;background:#d7a7630a;font-size:12px;line-height:1.7;color:#ddd0bb}.panel .actions{display:grid;gap:9px;margin-top:24px}.panel button{width:100%;min-height:48px;border-radius:3px;padding:10px 15px;text-align:left;font-size:12px;line-height:1.5;letter-spacing:.02em}.panel button.primary{background:#c1a274;color:#111a16;border-color:#e7c08a;font-weight:800;text-align:center}.panel button.secondary{background:#17221d;color:#ead8ba}.panel .choiceTitle{font-size:11px;color:#c0a579;letter-spacing:.14em;margin:16px 0 5px}#loadState{font-size:12px;color:#cbb894;margin:10px 0}#error{font-size:12px;color:#edb8a9;line-height:1.6;margin:10px 0}.hidden{display:none!important}@media (hover:hover) and (pointer:fine){#bottom{opacity:.87}#joybase{width:96px;height:96px}#knob{width:38px;height:38px}}@media(max-width:360px){#scanMeter{bottom:calc(211px + env(safe-area-inset-bottom))}.wordmark{font-size:21px}#stats span{padding:7px;font-size:9px}#objective{top:calc(100px + env(safe-area-inset-top));font-size:11px}#topTools{top:calc(163px + env(safe-area-inset-top))}#joybase{width:108px;height:108px}#buttons{grid-template-columns:55px 67px;gap:7px}#buttons button{height:52px}#nudge{bottom:calc(143px + env(safe-area-inset-bottom))}#proximity{bottom:calc(190px + env(safe-area-inset-bottom))}}@media(max-height:650px){#scanMeter{bottom:calc(165px + env(safe-area-inset-bottom))}#objective{top:calc(75px + env(safe-area-inset-top));font-size:10px;padding:7px}#topTools{top:calc(130px + env(safe-area-inset-top))}#joybase{height:94px;width:94px}#buttons{grid-template-columns:55px 67px;grid-template-rows:47px 47px}#buttons button{height:47px}#nudge{display:none}#proximity{bottom:calc(130px + env(safe-area-inset-bottom))}#caption{top:31%}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}#grain{display:none}}
+</style>
+</head>
+<body>
+<div id="app">
+<canvas id="stage" aria-label="Elif'i karanlık ormanda aradığın üç boyutlu oyun alanı" tabindex="0"></canvas>
+<div id="grain"></div><div id="edge"></div>
+<div id="ui">
+<div id="header"><div><div class="eyebrow">BÖLÜM 01 / KARANLIĞI DİNLE</div><div class="wordmark">SON IŞIK</div><div class="minor" id="subhead">KAYIP: ELİF · 23:17</div></div><div id="stats"><span>FENER <strong id="battery">68%</strong></span><span>KANIT <strong id="clueCount">0 / 3</strong></span></div></div>
+<div id="objective"><div id="objectiveIcon">⌾</div><div id="objectiveText">Eski oyun parkında Elif'in izini bul.</div></div>
+<div id="topTools"><button id="pauseBtn" aria-label="Oyunu duraklat" title="Duraklat">Ⅱ</button><button id="muteBtn" aria-label="Sesi aç veya kapat" title="Ses">♫</button></div>
+<div id="caption" aria-live="polite"></div><div id="scanMeter" aria-live="off"><span>İZİ AYDINLAT</span><div id="scanTrack"><div id="scanProgress"></div></div></div><div id="proximity" aria-live="polite"></div><div id="nudge">Sol: yürü · Sağ: feneri yönelt · Karanlıkta dur ve dinle</div><div id="soundCue" aria-live="polite"></div><div id="hurt"></div>
+<div id="bottom"><div id="joybase" role="application" aria-label="Sanal hareket çubuğu"><div id="knob"></div></div><div id="buttons"><button id="flash" aria-label="Feneri aç veya kapat"><b>◉</b>FENER</button><button id="interact" aria-label="Yakındaki nesneyi incele"><b>⌕</b>İNCELE</button><button id="charge" aria-label="Basılı tutarak feneri şarj et"><b>⟲</b>ŞARJ</button><button id="listen" aria-label="Karanlıkta durup çevreyi dinle"><b>◌</b>DİNLE</button></div></div>
+</div>
+<div id="modalRoot"><div class="panel" id="modalPanel">
+<div class="tag">DURUM / ARAMA DEVAM EDİYOR</div><h1>SON<br>IŞIK</h1><p class="lead">Ormanda bir çocuğun sesini duydun. Ama aynı sesi ikinci kez duyduğunda... bu kez başka yerden geliyordu.</p><div class="note"><b>HEDEF:</b> Elif'in üç kanıtını bul, kulübeye ulaş ve hangi sesin gerçek olduğunu anla.<br><b>İKİ DUYU:</b> Fenerle görüp kanıtları tara. Yolu dinlemek için feneri kapat ve hareketsiz kal. Işık seni ele verebilir.; ışık seni düşmana da gösterir.</div><p class="small">Mobil: sol parmakla yürü, sağ tarafta sürükleyerek feneri döndür. İncele, ışığı kapat, karanlıkta saklan. Şarj için basılı tut. Kulaklık önerilir.</p><p class="small">Bilgisayar: WASD / oklar, fare ile nişan, E incele, F fener, C şarj, Q dinle, Esc duraklat.</p><div id="loadState">3B orman yükleniyor...</div><div id="error" class="hidden"></div><div class="actions"><button class="primary" id="startBtn" disabled>ORMANA GİR</button><button class="secondary" id="resumeBtn" style="display:none">KALDIĞIN YERDEN DEVAM ET</button><button class="secondary" id="legacyBtn">V15 ÖNCEKİ SÜRÜMÜ AÇ</button></div>
+</div></div>
+<script type="module">
+const $=id=>document.getElementById(id);
+let T;
+try {
+  T=await import('./vendor/three.module.js');
+  if(!T.WebGLRenderer)throw new Error('Three.js modülü boş');
+} catch (localError) {
+  try {T=await import('https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js');}
+  catch (cdnError) {
+    $('loadState').textContent='3B motoru yüklenemedi.';
+    $('error').textContent='İnternet bağlantını kontrol et veya V13 sürümünü aç. Hata: '+String(cdnError.message||cdnError);
+    $('error').classList.remove('hidden');throw cdnError;
+  }
+}
+try { boot(T); }catch(error){console.error('[SON ISIK V16]',error);$('loadState').textContent='Oyun başlatılamadı.';$('error').textContent=String(error.stack||error.message||error).slice(0,450);$('error').classList.remove('hidden');}
+function boot(T){
+const canvas=$('stage'),mobile=matchMedia('(pointer:coarse)').matches,reduceMotion=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const renderer=new T.WebGLRenderer({canvas,antialias:!mobile,powerPreference:'high-performance',alpha:false});
+renderer.setClearColor(0x000000,1);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.18;
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.setPixelRatio(Math.min(devicePixelRatio||1,mobile?1.4:1.8));
+const scene=new T.Scene();scene.background=new T.Color(0x000000);scene.fog=new T.FogExp2(0x000000,.014);
+const camera=new T.OrthographicCamera(-9,9,13,-13,.1,95),cameraLook=new T.Vector3(48,0,10);const raycaster=new T.Raycaster(),plane=new T.Plane(new T.Vector3(0,1,0),-.35),pointer=new T.Vector2();
+const WORLD={minX:7,maxX:94,minZ:2,maxZ:119};const START={x:48,z:9};
+const V=(x,y,z)=>new T.Vector3(x,y,z),clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),dist=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z);
+const rand=(()=>{let s=9502498;return()=>((s=Math.imul(s,1664525)+1013904223>>>0)/4294967296)})();const rr=(a,b)=>a+(b-a)*rand();
+const beamU={uBeamOrigin:{value:V(48,1.7,9)},uBeamDirection:{value:V(0,-.1,1)},uBeamOuter:{value:Math.cos(.56)},uBeamInner:{value:Math.cos(.39)},uBeamRange:{value:16.4},uBeamPower:{value:1}};
+let shaderPatches=0;
+function litMat(color,settings={}){
+ const mat=new T.MeshStandardMaterial({color,roughness:1,metalness:0,flatShading:true,...settings});
+ mat.onBeforeCompile=shader=>{
+   Object.assign(shader.uniforms,beamU);
+   const head='varying vec3 vBeamWorld;\n';
+   shader.vertexShader=shader.vertexShader.replace('void main() {',head+'void main() {').replace('#include <project_vertex>',`#include <project_vertex>\n#ifdef USE_INSTANCING\nvBeamWorld=(modelMatrix * instanceMatrix * vec4(position,1.0)).xyz;\n#else\nvBeamWorld=(modelMatrix * vec4(position,1.0)).xyz;\n#endif`);
+   shader.fragmentShader=shader.fragmentShader.replace('void main() {',`varying vec3 vBeamWorld;\nuniform vec3 uBeamOrigin;\nuniform vec3 uBeamDirection;\nuniform float uBeamOuter;\nuniform float uBeamInner;\nuniform float uBeamRange;\nuniform float uBeamPower;\nvoid main() {`).replace('#include <dithering_fragment>',`#include <dithering_fragment>\nvec3 ray=vBeamWorld-uBeamOrigin;\nfloat depth=length(ray);\nfloat a=dot(normalize(ray+vec3(0.00001)),uBeamDirection);\nfloat cone=smoothstep(uBeamOuter,uBeamInner,a);\nfloat falloff=1.0-smoothstep(uBeamRange*0.74,uBeamRange,depth);\nfloat nearPool=1.0-smoothstep(0.65,1.5,depth);\nfloat visibility=clamp(max(cone*falloff,nearPool)*uBeamPower,0.0,1.0);\ngl_FragColor.rgb*=visibility;`);
+   if(!shader.vertexShader.includes('vBeamWorld=(modelMatrix')||!shader.fragmentShader.includes('float visibility=clamp('))throw new Error('Spotlight shader chunks are incompatible');
+   shaderPatches++;
+ };
+ mat.customProgramCacheKey=()=>"flash-only-v16-shadow-2";
+ return mat;
+}
+// All world meshes use a patched lit material. No MeshBasic, emissive, ambient, moon or UI world sprite is allowed.
+const m={dirt:litMat('#786b57'),path:litMat('#a18c69'),bark:litMat('#4f4840'),needles:litMat('#374f43'),needles2:litMat('#516252'),stone:litMat('#777973'),iron:litMat('#7f7970'),rust:litMat('#9e624d'),bone:litMat('#d6c2a0'),coat:litMat('#8c8776'),shirt:litMat('#5e665d'),skin:litMat('#c4a188'),hair:litMat('#3c342d'),scarf:litMat('#ab5547'),shoe:litMat('#b96b53'),note:litMat('#eddfbe'),paper:litMat('#b4a47e'),gold:litMat('#d0aa6b'),dark:litMat('#292c28'),white:litMat('#e2ddd1'),enemy:litMat('#7f8580'),enemyDark:litMat('#535958'),wood:litMat('#78614a'),leaf:litMat('#5d6956')};
+const G={box:new T.BoxGeometry(1,1,1),sphere:new T.IcosahedronGeometry(1,1),cone:new T.ConeGeometry(1,1,6),cyl:new T.CylinderGeometry(1,1,1,7)};
+function mesh(p,g,material,pos=[0,0,0],scale=[1,1,1],rot=[0,0,0],shadow=true){const x=new T.Mesh(g,material);x.position.set(...pos);x.scale.set(...scale);x.rotation.set(...rot);x.castShadow=shadow;x.receiveShadow=true;p.add(x);return x;}
+const floor=mesh(scene,new T.PlaneGeometry(96,124),m.dirt,[50,-.17,61],[1,1,1],[-Math.PI/2,0,0],false);
+// A story route, not a 320x320 open forest: every detour leads to evidence, a threat, or a meaningful fork.
+const mainPath=[{x:48,z:9},{x:52,z:19},{x:43,z:31},{x:47,z:43},{x:49,z:47}];
+const bellPath=[{x:49,z:47},{x:37,z:57},{x:40,z:67},{x:52,z:75}];
+const riverPath=[{x:49,z:47},{x:63,z:56},{x:67,z:66},{x:52,z:75}];
+const endPath=[{x:52,z:75},{x:61,z:85},{x:52,z:99},{x:52,z:113}];
+const allPaths=[mainPath,bellPath,riverPath,endPath];
+function toSegment(p,a,b){const vx=b.x-a.x,vz=b.z-a.z,len=vx*vx+vz*vz,t=clamp(((p.x-a.x)*vx+(p.z-a.z)*vz)/(len||1),0,1);return Math.hypot(p.x-(a.x+t*vx),p.z-(a.z+t*vz));}
+function trailDistance(p){let q=Infinity;for(const path of allPaths)for(let i=1;i<path.length;i++)q=Math.min(q,toSegment(p,path[i-1],path[i]));return q;}
+function bridgeMat(a,b,width,material){const dx=b.x-a.x,dz=b.z-a.z,l=Math.hypot(dx,dz);return mesh(scene,G.box,material,[(a.x+b.x)/2,-.09,(a.z+b.z)/2],[width,.12,l],[0,Math.atan2(dx,dz),0],false);}
+for(const path of allPaths)for(let i=1;i<path.length;i++)bridgeMat(path[i-1],path[i],3.8,m.path);
+const obstacles=[];function registerObstacle(x,z,r){obstacles.push({x,z,r});}
+function lineClear(a,b,padding=.05){
+ const dx=b.x-a.x,dz=b.z-a.z,len2=dx*dx+dz*dz;if(len2<.01)return true;
+ for(const o of obstacles){const t=clamp(((o.x-a.x)*dx+(o.z-a.z)*dz)/len2,0,1);
+  if(t<.04||t>.96)continue;const px=a.x+t*dx,pz=a.z+t*dz;
+  if(Math.hypot(o.x-px,o.z-pz)<o.r+padding)return false;
+ }
+ return true;
+}
+function inTorchCone(target,maxDistance=12){
+ if(!game.torch||game.energy<=.01||game.mode!=='playing')return false;
+ const h=game.hero,dx=target.x-h.x,dz=target.z-h.z,d=Math.hypot(dx,dz);
+ if(d>maxDistance)return false;
+ const facing=(dx*Math.cos(h.aim)+dz*Math.sin(h.aim))/Math.max(.001,d);
+ // The 0.58 rad angle matches the world-space flashlight mask (0.56), with near-spill allowance.
+ return (d<1.35||facing>Math.cos(.53))&&lineClear(h,target,.03);
+}
+const trunkGeom=new T.CylinderGeometry(.28,.48,1,6),branchGeom=new T.ConeGeometry(1,1,6),treeCount=mobile?192:240;
+let trees=[];for(let attempt=0;attempt<treeCount*13&&trees.length<treeCount;attempt++){
+ const x=rr(8,93),z=rr(3,119),radius=rr(.65,1.15);
+ if(trailDistance({x,z})<3.4||obstacles.some(o=>Math.hypot(x-o.x,z-o.z)<2.05))continue;
+ trees.push({x,z,radius,h:rr(4.7,9.5),spin:rr(0,6.28),shade:rand()});registerObstacle(x,z,radius*.55);
+}
+const treeTrunks=new T.InstancedMesh(trunkGeom,m.bark,trees.length),treeTopA=new T.InstancedMesh(branchGeom,m.needles,trees.length),treeTopB=new T.InstancedMesh(branchGeom,m.needles2,trees.length);let dummy=new T.Object3D();for(let i=0;i<trees.length;i++){const t=trees[i];dummy.position.set(t.x,t.h*.33,t.z);dummy.scale.set(t.radius,t.h*.67,t.radius);dummy.rotation.y=t.spin;dummy.updateMatrix();treeTrunks.setMatrixAt(i,dummy.matrix);dummy.position.set(t.x,t.h*.65,t.z);dummy.scale.set(t.radius*2.7,t.h*.63,t.radius*2.7);dummy.updateMatrix();treeTopA.setMatrixAt(i,dummy.matrix);dummy.position.set(t.x,t.h*.96,t.z);dummy.scale.set(t.radius*2.0,t.h*.59,t.radius*2.0);dummy.updateMatrix();treeTopB.setMatrixAt(i,dummy.matrix);}for(const inst of [treeTrunks,treeTopA,treeTopB]){inst.instanceMatrix.needsUpdate=true;inst.castShadow=true;inst.receiveShadow=true;inst.frustumCulled=false;scene.add(inst);}
+// Low-cost foreground rocks; material and positions are masked by the same torch shader.
+for(let i=0;i<85;i++){const x=rr(8,93),z=rr(3,119);if(trailDistance({x,z})<2.4)continue;mesh(scene,G.sphere,m.stone,[x,.12,z],[rr(.35,.9),rr(.18,.48),rr(.36,.96)],[],false);}
+// Recognizable landmarks are visible only once the light falls on them.
+function objectGroup(x,z){const group=new T.Group();group.position.set(x,0,z);scene.add(group);return group;}
+const playground=objectGroup(43,31);for(const x of [-2.1,2.1])mesh(playground,G.cyl,m.rust,[x,1.6,0],[.13,3.2,.13]);mesh(playground,G.cyl,m.iron,[0,3.1,0],[.12,4.6,.12],[0,0,Math.PI/2]);for(const x of [-.85,.85])mesh(playground,G.cyl,m.iron,[x,1.9,.1],[.05,2.25,.05]);mesh(playground,G.box,m.wood,[0,.85,.1],[2,.13,.64]);mesh(playground,G.box,m.rust,[2.7,.36,-1.6],[1.2,.25,1.4]);
+const clueShoe=objectGroup(44.5,30.4);mesh(clueShoe,G.box,m.shoe,[0,.18,0],[.7,.34,.38]);mesh(clueShoe,G.box,m.white,[.23,.29,-.05],[.27,.06,.19]);mesh(clueShoe,G.box,m.note,[-.38,.12,.1],[.63,.03,.62],[0,.36,0]);
+const forkPost=objectGroup(49,47);mesh(forkPost,G.cyl,m.wood,[0,1.5,0],[.24,3.0,.24]);mesh(forkPost,G.box,m.note,[-1.05,2.38,0],[2.0,.45,.22],[0,-.4,0]);mesh(forkPost,G.box,m.rust,[1.05,1.83,0],[2.0,.45,.22],[0,.4,0]);
+const bellSign=objectGroup(37,57);mesh(bellSign,G.cyl,m.wood,[0,1.4,0],[.2,2.8,.2]);mesh(bellSign,G.box,m.gold,[0,2.5,.1],[1.9,.62,.18],[0,.18,0]);const bellFrame=objectGroup(39,64);for(const x of [-1.1,1.1])mesh(bellFrame,G.cyl,m.bark,[x,1.7,0],[.16,3.4,.16]);mesh(bellFrame,G.box,m.wood,[0,3.28,0],[2.5,.18,.18]);for(const x of [-.6,0,.6]){mesh(bellFrame,G.cyl,m.iron,[x,2.2,0],[.1,1.25,.1]);mesh(bellFrame,G.cone,m.gold,[x,1.67,0],[.2,.3,.2]);}
+const bridgeSign=objectGroup(63,56);mesh(bridgeSign,G.cyl,m.wood,[0,1.35,0],[.18,2.7,.18]);mesh(bridgeSign,G.box,m.note,[0,2.6,.1],[1.75,.65,.15]);const bridge=objectGroup(65,65);for(let j=0;j<5;j++)mesh(bridge,G.box,m.wood,[j*.86-1.72,.24,0],[.74,.18,2.3],[],false);for(const x of [-2.0,2.0])for(const z of [-1.0,1.0])mesh(bridge,G.cyl,m.wood,[x,.75,z],[.16,1.5,.16]);
+const relic=objectGroup(60,84);mesh(relic,G.cyl,m.bark,[0,2.1,0],[.4,4.2,.4]);mesh(relic,G.box,m.wood,[0,3.75,.35],[2.6,.17,.19]);for(const x of [-.85,-.27,.33,.9]){mesh(relic,G.cyl,m.gold,[x,2.7,.35],[.08,1.15,.08]);mesh(relic,G.cone,m.rust,[x,2.08,.35],[.24,.36,.24]);}mesh(relic,G.box,m.note,[1.45,.48,.65],[.75,.04,.6],[0,-.25,0]);
+const cabin=objectGroup(52,113);mesh(cabin,G.box,m.wood,[0,2.0,0],[7,4.0,6.2]);mesh(cabin,G.cone,m.dark,[0,5.0,0],[5.4,2.25,5.2],[0,Math.PI/4,0]);for(const side of [-1,1]){mesh(cabin,G.box,m.enemyDark,[side*1.55,1.6,-3.16],[1.52,3.1,.22]);mesh(cabin,G.box,m.rust,[side*1.55+side*.52,1.7,-3.32],[.14,.18,.10]);}mesh(cabin,G.box,m.note,[0,2.65,-3.29],[.75,.45,.13]);
+const checkpointMarkers=[START,{x:43,z:31},{x:49,z:47},{x:52,z:75},{x:60,z:84}];
+let forkNudgeSeen=false; // A landmark cue is given once; never an intrusive permanent HUD arrow.
+// Low-poly player with a real-world scale: the flashlight's near-field spill makes only nearby fragments visible.
+const body=objectGroup(START.x,START.z),leftLeg=new T.Group(),rightLeg=new T.Group();
+mesh(body,G.box,m.coat,[0,1.22,0],[.67,1.15,.53]);mesh(body,G.sphere,m.skin,[0,2.06,.0],[.29,.35,.29]);mesh(body,G.sphere,m.hair,[0,2.30,-.04],[.31,.13,.30]);mesh(body,G.box,m.scarf,[0,1.73,.14],[.71,.16,.54]);mesh(body,G.box,m.wood,[0,1.27,-.39],[.56,.65,.24]);leftLeg.position.set(-.21,.8,0);rightLeg.position.set(.21,.8,0);body.add(leftLeg,rightLeg);for(const leg of [leftLeg,rightLeg]){mesh(leg,G.box,m.shirt,[0,-.19,0],[.26,.52,.32]);mesh(leg,G.box,m.dark,[0,-.53,.11],[.26,.27,.37]);}mesh(body,G.box,m.coat,[.44,1.48,.2],[.24,.77,.28],[.35,0,0]);mesh(body,G.cyl,m.gold,[.53,1.1,.59],[.1,.32,.1],[Math.PI/2,0,0]);
+const spot=new T.SpotLight(0xffd8a1,110,23,.68,.50,1.5);spot.castShadow=true;spot.shadow.mapSize.set(mobile?512:768,mobile?512:768);spot.shadow.camera.near=.3;spot.shadow.camera.far=24;spot.shadow.bias=-.00024;spot.shadow.normalBias=.022;scene.add(spot,spot.target);
+const hunter=objectGroup(0,0);const gh=new T.Group();hunter.add(gh);mesh(gh,G.cone,m.enemyDark,[0,1.5,0],[.8,3.15,.7]);mesh(gh,G.sphere,m.enemy,[0,3.25,0],[.36,.52,.37]);for(const side of [-1,1]){const arm=new T.Group();arm.position.set(side*.55,2.53,0);gh.add(arm);mesh(arm,G.box,m.enemyDark,[side*.05,-.85,0],[.16,1.85,.18]);arm.userData.side=side;gh.userData.arms??=[];gh.userData.arms.push(arm);}hunter.visible=false;
+let game={mode:'menu',stage:0,route:null,clues:[],attempts:0,elapsed:0,energy:68,torch:true,charging:false,sound:true,captions:true,chargeSeconds:0,lastChargeNoise:-99,lastBatteryWarning:0,hero:{x:START.x,z:START.z,aim:Math.PI/2,speed:3.5},enemy:{active:false,x:0,z:0,searchX:0,searchZ:0,alert:0,warning:0,life:0,invulnerable:0},threatDelay:Infinity,listenCooldown:0,footstepTime:0,lastCheckpoint:START,showCaptionUntil:0,showSoundUntil:0,choiceOpen:false,saveCooldown:0,revealed:[],scanKey:null,scanTime:0,lastMoved:false,scanMessageUntil:0};
+const SAVE_KEY='sonIsikV16Chapter01',OLD_SAVE_KEY='sonIsikV15Chapter01',PREVIOUS_SAVE_KEY='sonIsikV14Chapter01',MIGRATION_KEY='sonIsikV16MigrationDone'; // Both earlier chapter saves remain untouched.
+const AUDIO={ctx:null,master:null,amb:null,amb2:null};
+function startAudio(){if(AUDIO.ctx){AUDIO.ctx.resume?.();return;}try{const ctx=new (window.AudioContext||window.webkitAudioContext)(),master=ctx.createGain();master.gain.value=.13;master.connect(ctx.destination);AUDIO.ctx=ctx;AUDIO.master=master;for(const f of [54,82]){const osc=ctx.createOscillator(),lp=ctx.createBiquadFilter(),vol=ctx.createGain();osc.type='sine';osc.frequency.value=f;lp.type='lowpass';lp.frequency.value=135;vol.gain.value=f===54?.022:.013;osc.connect(lp).connect(vol).connect(master);osc.start();}}catch(err){console.warn('Audio unavailable',err);}}
+function tone(f,d=.15,type='sine',gain=.14,x=null,z=null){if(!game.sound||!AUDIO.ctx)return;try{const ctx=AUDIO.ctx,osc=ctx.createOscillator(),vol=ctx.createGain();osc.type=type;osc.frequency.setValueAtTime(f,ctx.currentTime);osc.frequency.exponentialRampToValueAtTime(Math.max(38,f*.68),ctx.currentTime+d);vol.gain.setValueAtTime(0,ctx.currentTime);vol.gain.linearRampToValueAtTime(gain,ctx.currentTime+.018);vol.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+d);osc.connect(vol);if(x===null){vol.connect(AUDIO.master);}else{const pan=ctx.createPanner();pan.panningModel='HRTF';pan.distanceModel='inverse';pan.refDistance=3;pan.maxDistance=42;pan.rolloffFactor=1.3;pan.positionX.value=x;pan.positionY.value=1.7;pan.positionZ.value=z;vol.connect(pan).connect(AUDIO.master);}osc.start();osc.stop(ctx.currentTime+d+.02);}catch(err){console.warn('sound cue',err);}}
+function updateListener(){if(!AUDIO.ctx)return;const l=AUDIO.ctx.listener;try{if(l.positionX){l.positionX.value=game.hero.x;l.positionY.value=1.6;l.positionZ.value=game.hero.z;const a=game.hero.aim;if(l.forwardX){l.forwardX.value=Math.cos(a);l.forwardY.value=0;l.forwardZ.value=Math.sin(a);}}else l.setPosition(game.hero.x,1.6,game.hero.z);}catch(e){}}
+function showLine(message,seconds=3.9){$('caption').textContent=message;$('caption').classList.add('show');game.showCaptionUntil=game.elapsed+seconds;}
+function soundHint(s,seconds=2){if(!game.captions)return;$('soundCue').textContent=s;$('soundCue').classList.add('on');game.showSoundUntil=game.elapsed+seconds;}
+function objective(){return ['Salıncağın altında Elif’in bıraktığı işareti bul.','Kavşakta çan yolunu ya da köprüyü araştır.','Ormanın derinindeki rüzgâr çanlarını bul.','Eski kulübeye ulaş. Kapının ardındaki sesi dinle.'][game.stage]||'Elif’i bul.';}
+function refreshHUD(){ $('battery').textContent=Math.round(game.energy)+'%';$('battery').style.color=game.energy<18?'#ed9c91':'#dcbc84';$('clueCount').textContent=game.clues.length+' / 3';$('objectiveText').textContent=objective();$('nudge').style.opacity=game.stage===0&&game.elapsed<60?'.8':'0';$('flash').classList.toggle('off',!game.torch);$('flash').innerHTML=game.torch?'<b>◉</b>FENER':'<b>◌</b>KAPALI';$('charge').classList.toggle('pressed',game.charging);$('muteBtn').textContent=game.sound?'♫':'♪̸';}
+function setMode(v){game.mode=v;$('modalRoot').classList.toggle('hidden',v==='playing');}
+function save(){if(game.mode==='menu')return;try{localStorage.setItem(SAVE_KEY,JSON.stringify({version:16,stage:game.stage,route:game.route,clues:game.clues,revealed:game.revealed,attempts:game.attempts,elapsed:game.elapsed,energy:game.energy,torch:game.torch,hero:{x:game.hero.x,z:game.hero.z,aim:game.hero.aim},checkpoint:game.lastCheckpoint,completed:game.mode==='ending'}));}catch(e){}}
+function validSave(x){return x&&!x.completed&&Number.isFinite(x.hero?.x)&&Number.isFinite(x.hero?.z)&&Array.isArray(x.clues)&&Number.isInteger(x.stage)&&x.stage>=0&&x.stage<=3;}
+function readSave(){try{
+ const newer=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(validSave(newer)&&newer.version===16)return newer;
+ if(localStorage.getItem(MIGRATION_KEY)==='1')return null;
+ const old=JSON.parse(localStorage.getItem(OLD_SAVE_KEY)||'null');if(validSave(old)&&old.version===15)return {...old,version:16};
+  const older=JSON.parse(localStorage.getItem(PREVIOUS_SAVE_KEY)||'null');if(!validSave(older)||older.version!==14)return null;
+  return {...older,version:16,revealed:[...(older.stage>=1?['clue1']:[]),...(older.stage>=2?['fork:bell','fork:river']:[]),...(older.stage>=3?['clue3']:[])]};
+ }catch(e){return null;}}
+
+function reset(resume=false){const s=resume?readSave():null;if(!resume)try{localStorage.setItem(MIGRATION_KEY,'1');localStorage.removeItem(SAVE_KEY);}catch(e){}const h=s?.hero||START;
+ game.mode='playing';game.stage=s?.stage||0;game.route=s?.route||null;game.clues=Array.isArray(s?.clues)?s.clues.slice(0,3):[];game.attempts=s?.attempts||0;game.elapsed=s?.elapsed||0;game.energy=clamp(s?.energy??68,8,100);game.torch=s?.torch??true;game.hero={x:clamp(h.x,WORLD.minX,WORLD.maxX),z:clamp(h.z,WORLD.minZ,WORLD.maxZ),aim:h.aim??Math.PI/2,speed:3.5};game.enemy={active:false,x:0,z:0,searchX:0,searchZ:0,alert:0,warning:0,life:0,invulnerable:0};game.threatDelay=Infinity;game.charging=false;game.listenCooldown=0;game.chargeSeconds=0;game.lastChargeNoise=-99;game.lastBatteryWarning=0;game.choiceOpen=false;forkNudgeSeen=false;game.lastCheckpoint=s?.checkpoint||START;game.footstepTime=0;game.saveCooldown=0;game.revealed=Array.isArray(s?.revealed)?[...new Set(s.revealed)]:[];game.scanKey=null;game.scanTime=0;game.lastMoved=false;hideScanner();try{localStorage.setItem(MIGRATION_KEY,'1');}catch(e){}hunter.visible=false;$('hurt').classList.remove('on');startAudio();setMode('playing');refreshHUD();$('stage').focus({preventScroll:true});
+ showLine(s?'Elif’in bıraktığı izler hâlâ burada...':'Elif! Beni duyuyorsan... ışığıma gel. Feneri söndür, dur ve DİNLE.',5.8);save();}
+function playDoorKnock(side){
+ const authentic=side===(game.route==='river'?'right':'left');
+ const timing=authentic?[0,220,930]:[0,220,440];
+ const label=$('doorRhythm');
+ if(label)label.textContent=(side==='left'?'SOL':'SAĞ')+' KAPI · '+(game.captions||!game.sound?(authentic?'TAK, TAK ... TAK':'TAK, TAK, TAK'):'Dinlediğin sesi kanıtlarla karşılaştır.');
+ timing.forEach(delay=>setTimeout(()=>{if(game.mode==='choice'&&game.choiceOpen)tone(authentic?200:155,.11,'triangle',.18,side==='left'?50.5:53.5,109.7);},delay));
+}
+function modal(kind,opts={}){setMode(kind==='ending'?'ending':'choice');game.charging=false;game.choiceOpen=true;const panel=$('modalPanel');
+ if(kind==='clue1'){panel.innerHTML=`<div class="tag">KANIT 01 / OYUN PARKI</div><h2>Küçük kırmızı ayakkabı</h2><p class="lead">Ayakkabının içine katlanmış bir kâğıt sıkıştırılmış.</p><div class="note">“Baba, biri sesimi taklit ederse kapıyı nasıl çalacağımı hatırla. <b>İki kere. Bekle. Bir kere.</b>”</div><p>Bir çocuk karanlıkta yardım istiyorsa, artık yalnızca sesine güvenemezsin.</p><div class="actions"><button id="modalOK" class="primary">KAVŞAĞA DEVAM ET</button></div>`;panel.querySelector('button').onclick=()=>{game.stage=1;game.clues.push('ritim:2-1');game.lastCheckpoint={x:43,z:31};game.threatDelay=game.elapsed+9;save();closeChoice();showLine('İki vuruş... bir vuruş. Elif’in işareti.',4)};}
+ if(kind==='fork'){const bell=opts.route==='bell';panel.innerHTML=`<div class="tag">KANIT 02 / AYRILAN YOL</div><h2>${bell?'Paslı çan':'Çamurdaki izler'}</h2><p class="lead">${bell?'Rüzgâr duruyor. Buna rağmen çan üç kez çalıyor.': 'Köprünün çamurunda tek bir çocuk ayak izi var. Diğeri çıplak.'}</p><div class="note">${bell?'Çanı kim çaldı? Rüzgârın hiç esmediği anda üç vuruş duydun. Elif’in ayakkabısındaki notu hatırla.': 'Çocuk köprüyü geçmiş. Ama izler, geri dönen yetişkin ayak izleriyle kesişiyor.'}</div><p>Seçtiğin rota sonraki tehlikeyi değiştiriyor. Artık rüzgâr çanlarına gitmelisin.</p><div class="actions"><button id="modalOK" class="primary">İZİ TAKİP ET</button></div>`;panel.querySelector('button').onclick=()=>{game.stage=2;game.route=opts.route;game.clues.push(bell?'üç vuruş: sahte çağrı':'köprü: sol ayak izi');game.lastCheckpoint=bell?{x:37,z:57}:{x:63,z:56};game.threatDelay=game.elapsed+(bell?4:11);save();closeChoice();showLine(bell?'Çan bir kez daha çaldı. Bu kez arkandan.':'Islak tahta gıcırdadı. Bir adım daha var.',4.1)};}
+ if(kind==='clue3'){panel.innerHTML=`<div class="tag">KANIT 03 / RÜZGÂR ÇANLARI</div><h2>Elif’in bilekliği</h2><p class="lead">Çanların altında pembe bir bileklik asılı. Üzerine yalnızca iki kelime kazınmış.</p><div class="note">“<b>BEN BURADAYIM.</b>”<br>İplerin ucunda üç küçük düğüm var: iki düğüm birlikte, üçüncüsü ayrı.</div><p>Kulübe ileride. Kapıyı açmadan önce sesi dinle. Ormandaki her ses Elif değil.</p><div class="actions"><button id="modalOK" class="primary">KULÜBEYE GİT</button></div>`;panel.querySelector('button').onclick=()=>{game.stage=3;game.clues.push('bileklik:2-1');game.lastCheckpoint={x:60,z:84};game.threatDelay=game.elapsed+7;save();closeChoice();showLine('İpler iki kez titreşti... sonra bir kez.',4.5)};}
+ if(kind==='final'){panel.innerHTML=`<div class="tag">SON KARAR / KULÜBE</div><h2>İki kapı. Aynı ses.</h2><p class="lead">Kapıların ardında aynı çocuk ağlıyor. Ama vuruş ritimleri aynı değil.</p><div class="note">Elif’in ayakkabısındaki notu ve bilekliğindeki düğümleri hatırla. <b>Doğru kapıyı sesinden bul.</b></div><div class="actions"><button id="hearLeft" class="secondary">◌ SOL KAPIYI DİNLE</button><button id="hearRight" class="secondary">◌ SAĞ KAPIYI DİNLE</button><p id="doorRhythm" class="small" role="status" aria-live="polite">Önce kapıları ayrı ayrı dinle.</p><button id="chooseLeft" class="primary">SOL KAPIYI AÇ</button><button id="chooseRight" class="primary">SAĞ KAPIYI AÇ</button></div>`;
+ panel.querySelector('#hearLeft').onclick=()=>playDoorKnock('left');
+ panel.querySelector('#hearRight').onclick=()=>playDoorKnock('right');
+ panel.querySelector('#chooseLeft').onclick=()=>end(game.route!=='river');
+ panel.querySelector('#chooseRight').onclick=()=>end(game.route==='river');
+ tone(190,.3,'triangle',.05,52,113);}
+ if(kind==='pause'){panel.innerHTML=`<div class="tag">OYUN DURAKLATILDI</div><h2>Bir anlığına sessizlik</h2><p>Elif’i arıyorsun. Karanlıkta geçirdiğin süre <b>${Math.floor(game.elapsed/60)} dk ${Math.floor(game.elapsed%60)} sn</b>.</p><p class="small">Fenerle görür, karanlıkta ve hareketsizken duyarsın. Şarj sesi avcıyı çekebilir. Bir ağacın arkasına geçip ışığı kapatmak takibi kesebilir.</p><div class="actions"><button id="return" class="primary">OYUNA DÖN</button><button id="toggleCapt" class="secondary">SES ALTYAZISI: ${game.captions?'AÇIK':'KAPALI'}</button><button id="new" class="secondary">BÖLÜMÜ BAŞTAN OYNA</button><button id="old" class="secondary">V15 SÜRÜMÜNÜ AÇ</button></div>`;panel.querySelector('#return').onclick=closeChoice;panel.querySelector('#toggleCapt').onclick=()=>{game.captions=!game.captions;modal('pause')};panel.querySelector('#new').onclick=()=>{if(confirm('V16 kayıtlı ilerlemen sıfırlansın mı?'))reset(false)};panel.querySelector('#old').onclick=()=>location.href='./v15.html';}
+ if(kind==='caught'){panel.innerHTML=`<div class="tag">DÜŞMANA YAKALANDIN</div><h2>Bir şey seni buldu.</h2><p class="lead">“Baba?” diyen ses bu kez ensenin hemen arkasındaydı.</p><p>İzler kaybolmadı. Son kanıt noktasından devam edebilirsin. Fener şarjının bir kısmını kaybettin.</p><div class="actions"><button id="return" class="primary">ARAMAYA DEVAM ET</button></div>`;panel.querySelector('button').onclick=()=>{game.hero.x=game.lastCheckpoint.x;game.hero.z=game.lastCheckpoint.z;game.energy=clamp(game.energy-17,15,100);game.enemy.active=false;game.threatDelay=game.elapsed+20;hunter.visible=false;game.attempts++;save();closeChoice();showLine('Işığı kapat, dur ve seslerin uzaklaşmasını dinle.',3.5)};}
+}
+function closeChoice(){game.choiceOpen=false;setMode('playing');refreshHUD();$('stage').focus({preventScroll:true});}
+function end(found){game.mode='ending';game.choiceOpen=true;save();const panel=$('modalPanel');panel.innerHTML=found?`<div class="tag">BÖLÜM 01 / GERÇEK SES</div><h2>İki vuruş. Sonra bir.</h2><p class="lead">Kapıyı açtın. Elif battaniyenin altında sana bakıyor. Ağlamıyor. Seni bekliyormuş.</p><div class="note">“Sadece sen ritmimi biliyordun, baba.”<br><br>Onu kucağına aldığında kulübenin dışında üçüncü bir ayak sesi duyuluyor.</div><p><b>Elif bulundu.</b> Ama ormanda bir şey hâlâ senin sesini kullanıyor.</p><div class="actions"><button id="again" class="primary">BÖLÜM 01’İ TEKRAR OYNA</button><button id="old" class="secondary">V15 ÖNCEKİ SÜRÜM</button></div>`:`<div class="tag">BÖLÜM 01 / YANLIŞ SES</div><h2>Üçüncü vuruş</h2><p class="lead">Kapıyı açıyorsun. İçeride kimse yok. Fakat karanlık koridorun sonunda... kendi sesini duyuyorsun.</p><div class="note">“Elif, neredesin?”<br><br>Ses birebir senin sesin. Ve cevap veriyor: “Ben buradayım, baba.”</div><p>Elif’i bulamadın. Başından beri elinde gerçek ritim vardı. Bir sonraki denemede kanıtlara güven.</p><div class="actions"><button id="again" class="primary">SON KARARI YENİDEN OYNA</button><button id="restart" class="secondary">BAŞTAN BAŞLA</button></div>`;panel.querySelector('#again').onclick=()=>{game.mode='playing';game.choiceOpen=false;if(found)reset(false);else{game.hero.x=52;game.hero.z=106.9;game.threatDelay=Infinity;game.enemy.active=false;hunter.visible=false;setMode('playing');showLine('Kapıda duyduğun ritmi hatırla.',3.5);save();}};panel.querySelector('#old')?.addEventListener('click',()=>location.href='./v15.html');panel.querySelector('#restart')?.addEventListener('click',()=>reset(false));}
+// Pure mission progression is based on evidence, not on collecting an arbitrary number of toys.
+const targets=[{x:44.5,z:30.4},{x:49,z:47},{x:60,z:84},{x:52,z:109.6}];
+const evidence={
+ clue1:{x:44.5,z:30.4,name:'KÜÇÜK AYAKKABI'},
+ 'fork:bell':{x:37,z:57,name:'PASLI ÇAN İZİ'},
+ 'fork:river':{x:63,z:56,name:'KÖPRÜDEKİ AYAK İZİ'},
+ clue3:{x:60,z:84,name:'ELİF’İN BİLEKLİĞİ'},
+ final:{x:52,z:109.6,name:'KULÜBE KAPISI'}
+};
+function availableEvidence(){return game.stage===0?['clue1']:game.stage===1?['fork:bell','fork:river']:game.stage===2?['clue3']:['final'];}
+function candidateEvidence(maxRange=10){let best=null,md=maxRange;for(const key of availableEvidence()){const p=evidence[key],d=dist(game.hero,p);if(d<md){best=key;md=d;}}return best;}
+function hideScanner(){const meter=$('scanMeter');if(meter)meter.classList.remove('on');const bar=$('scanProgress');if(bar)bar.style.width='0%';}
+function updateEvidenceScan(dt){
+ if(game.mode!=='playing'){hideScanner();return;}
+ let key=null,closest=Infinity;
+ for(const candidate of availableEvidence()){const d=dist(game.hero,evidence[candidate]);
+  if(d<closest&&d<10&&inTorchCone(evidence[candidate],10)){key=candidate;closest=d;}}
+ if(!key||game.revealed.includes(key)){
+  game.scanTime=Math.max(0,game.scanTime-dt*1.2);if(game.scanTime===0){game.scanKey=null;hideScanner();}return;
+ }
+ if(game.scanKey!==key){game.scanKey=key;game.scanTime=0;}
+ game.scanTime=Math.min(.72,game.scanTime+dt);
+ const meter=$('scanMeter');meter.querySelector('span').textContent=evidence[key].name+' · TARIYOR';meter.classList.add('on');$('scanProgress').style.width=Math.round(game.scanTime/.72*100)+'%';
+ if(game.scanTime>=.72){game.revealed.push(key);game.scanKey=null;game.scanTime=0;hideScanner();showLine('Işıkta bir iz belirdi. Yaklaş ve İNCELE.',3);tone(660,.12,'sine',.08);save();}
+}
+function closestAction(){
+ const h=game.hero;let found=null,closest=Infinity;
+ for(const key of availableEvidence()){const d=dist(h,evidence[key]);if(d<closest&&d<(key==='final'?4.1:key==='clue1'?2.65:3.2)){found=key;closest=d;}}
+ if(!found)return null;
+ if(!game.revealed.includes(found))return inTorchCone(evidence[found],10)?{type:'hidden',text:'FENERLE İZİ AYDINLAT',key:found}:null;
+ const info=found.startsWith('fork:')?{type:'fork',route:found.split(':')[1]}:{type:found};
+ return{...info,key:found,text:found==='clue1'?'AYAKKABIYI İNCELE':found==='fork:bell'?'ÇAN İZİNİ İNCELE':found==='fork:river'?'KÖPRÜDEKİ İZLER':found==='clue3'?'BİLEKLİĞİ İNCELE':'KAPIYI DİNLE'};
+}
+function doInteract(){if(game.mode!=='playing')return;const a=closestAction();if(a?.type==='hidden'){showLine('İz çok karanlık. Feneri üzerine tut ve biraz bekle.',2.8);return;}
+ if(a)modal(a.type,a);else showLine('Önce DİNLE ile yönünü bul. İzleri fenerle aydınlat.',2.5);
+}
+function missionTarget(){
+ const h=game.hero;
+ if(game.stage===0)return h.z<21?{x:52,z:19}:targets[0];
+ if(game.stage===1){if(h.z<43&&dist(h,{x:49,z:47})>7)return{x:49,z:47};
+  return dist(h,evidence['fork:bell'])<=dist(h,evidence['fork:river'])?evidence['fork:bell']:evidence['fork:river'];}
+ if(game.stage===2)return h.z<70?{x:52,z:75}:targets[2];
+ if(game.stage===3)return h.z<96?{x:52,z:99}:targets[3];
+ return targets[0];
+}
+function relativeDirection(target){const dx=target.x-game.hero.x,dz=target.z-game.hero.z,angle=Math.atan2(dz,dx),rel=Math.atan2(Math.sin(angle-game.hero.aim),Math.cos(angle-game.hero.aim));
+ return Math.abs(rel)<.52?'ÖNÜNDE':Math.abs(rel)>2.62?'ARKANDA':rel<0?'SAĞINDA':'SOLUNDA';}
+function listen(){
+ if(game.mode!=='playing')return;
+ if(game.torch||game.charging){showLine('Önce feneri kapat. Karanlıkta sesler daha belirgin.',3.3);return;}
+ if(game.lastMoved||Math.hypot(controls.joyX,controls.joyY)>.12){showLine('Yürürken duyamazsın. Dur ve tekrar DİNLE.',2.8);return;}
+ if(game.listenCooldown>0){soundHint('Bir an bekle. Önce orman yeniden sessizleşsin.',1.6);return;}
+ game.listenCooldown=5.5;
+ const e=game.enemy;
+ if(e.active&&dist(game.hero,e)<11){
+   soundHint('TEHLİKE '+relativeDirection(e)+' · AĞIR, DÜZENSİZ NEFES',4);
+   tone(72,.44,'triangle',.09,e.x,e.z);return;
+ }
+ if(game.stage===1&&dist(game.hero,{x:49,z:47})<10){
+  soundHint('SOL PATİKADA ÇAN · SAĞ PATİKADA TAHTA GICIRTISI',4.3);
+  tone(490,.18,'sine',.12,37,57);
+  setTimeout(()=>{if(game.mode==='playing'&&!game.torch)tone(350,.22,'triangle',.1,63,56)},380);
+  return;
+ }
+ const t=missionTarget(),direction=relativeDirection(t);
+ const cues=['ESKİ SALINCAK GICIRDADI','METAL ÇAN SESİ / ISLAK TAHTA','RÜZGÂR ÇANLARI TİTRİYOR','KULÜBEDEN ÜÇ HAFİF VURUŞ'];
+ const descriptor=cues[game.stage]||'BİR SES DUYDUN';
+ soundHint(direction+' · '+descriptor,4.3);
+ tone(game.stage===3?320:game.stage===0?450:540,.22,game.stage===1?'triangle':'sine',.12,t.x,t.z);
+ setTimeout(()=>{if(game.mode==='playing'&&!game.torch)tone(580,.13,'sine',.085,t.x,t.z)},290);
+}function isSafeWalk(x,z){if(x<WORLD.minX||x>WORLD.maxX||z<WORLD.minZ||z>WORLD.maxZ)return false;if(x>48.4&&x<55.6&&z>110.5&&z<116.4)return false;for(const o of obstacles)if((x-o.x)**2+(z-o.z)**2<(o.r+.38)**2)return false;return true;}
+const controls={joyX:0,joyY:0,joyPointer:null,aimPointer:null,aimX:0,aimY:0,keys:new Set()};
+function moveJoy(e){const rect=$('joybase').getBoundingClientRect(),dx=e.clientX-(rect.left+rect.width/2),dy=e.clientY-(rect.top+rect.height/2),r=Math.min(1,Math.hypot(dx,dy)/44),a=Math.atan2(dy,dx);controls.joyX=Math.cos(a)*r;controls.joyY=Math.sin(a)*r;$('knob').style.transform=`translate(${controls.joyX*35}px,${controls.joyY*35}px)`;}
+function stopJoy(){controls.joyPointer=null;controls.joyX=controls.joyY=0;$('knob').style.transform='translate(0,0)';}
+$('joybase').addEventListener('pointerdown',e=>{if(controls.joyPointer!==null)return;controls.joyPointer=e.pointerId;$('joybase').setPointerCapture?.(e.pointerId);moveJoy(e);e.preventDefault();});
+$('joybase').addEventListener('pointermove',e=>{if(controls.joyPointer===e.pointerId)moveJoy(e);});for(const n of ['pointerup','pointercancel','lostpointercapture'])$('joybase').addEventListener(n,e=>{if(controls.joyPointer===e.pointerId)stopJoy();});
+function aimPoint(clientX,clientY){const rect=canvas.getBoundingClientRect();pointer.set((clientX-rect.left)/rect.width*2-1,-(clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);const hit=new T.Vector3();if(raycaster.ray.intersectPlane(plane,hit)){const dx=hit.x-game.hero.x,dz=hit.z-game.hero.z;if(Math.hypot(dx,dz)>.4)game.hero.aim=Math.atan2(dz,dx);}}
+canvas.addEventListener('pointerdown',e=>{if(game.mode!=='playing')return;if(e.pointerType==='mouse'||e.clientX>window.innerWidth*.39){controls.aimPointer=e.pointerId;controls.aimX=e.clientX;controls.aimY=e.clientY;canvas.setPointerCapture?.(e.pointerId);aimPoint(e.clientX,e.clientY);}});
+canvas.addEventListener('pointermove',e=>{if(game.mode!=='playing')return;if(e.pointerType==='mouse'||controls.aimPointer===e.pointerId){controls.aimX=e.clientX;controls.aimY=e.clientY;aimPoint(e.clientX,e.clientY);}});
+for(const n of ['pointerup','pointercancel'])canvas.addEventListener(n,e=>{if(controls.aimPointer===e.pointerId)controls.aimPointer=null;});
+window.addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();controls.keys.add(e.key.toLowerCase());if(e.repeat)return;if(e.key.toLowerCase()==='e')doInteract();if(e.key.toLowerCase()==='f')toggleLight();if(e.key.toLowerCase()==='q')listen();if(e.key.toLowerCase()==='c')chargeStart();if(e.key==='Escape'){if(game.mode==='playing')modal('pause');else if(game.mode==='choice'&&!game.choiceOpen)closeChoice();}});window.addEventListener('keyup',e=>{controls.keys.delete(e.key.toLowerCase());if(e.key.toLowerCase()==='c')chargeEnd();});window.addEventListener('blur',()=>{controls.keys.clear();stopJoy();chargeEnd();if(game.mode==='playing')modal('pause');});
+function toggleLight(){if(game.mode!=='playing'||game.charging)return;if(game.energy<=.5){showLine('Şarj yok. Basılı tutarak feneri kur.',2);return;}game.torch=!game.torch;refreshHUD();tone(game.torch?650:230,.07,'square',.07);}
+function chargeStart(){if(game.mode!=='playing'||game.charging)return;game.charging=true;game.chargeSeconds=0;game.torch=false;refreshHUD();}
+function chargeEnd(){if(!game.charging)return;game.charging=false;game.chargeSeconds=0;refreshHUD();}
+$('flash').addEventListener('click',toggleLight);$('interact').addEventListener('click',doInteract);$('listen').addEventListener('click',listen);$('pauseBtn').addEventListener('click',()=>{if(game.mode==='playing')modal('pause');});$('muteBtn').addEventListener('click',()=>{game.sound=!game.sound;if(AUDIO.master)AUDIO.master.gain.value=game.sound?.13:0;refreshHUD();});
+$('charge').addEventListener('pointerdown',e=>{e.preventDefault();$('charge').setPointerCapture?.(e.pointerId);chargeStart();});for(const n of ['pointerup','pointercancel','lostpointercapture'])$('charge').addEventListener(n,chargeEnd);
+$('startBtn').onclick=()=>reset(false);$('resumeBtn').onclick=()=>reset(true);$('legacyBtn').onclick=()=>location.href='./v15.html';
+function canEnemySpawn(x,z){return isSafeWalk(x,z)&&trailDistance({x,z})<8;}
+function spawnEnemy(){if(game.mode!=='playing'||game.enemy.active)return;const h=game.hero;
+ let spotPos=null;for(let attempt=0;attempt<60;attempt++){const a=h.aim+Math.PI+rr(-1.15,1.15),d=rr(11.5,15),x=h.x+Math.cos(a)*d,z=h.z+Math.sin(a)*d;if(canEnemySpawn(x,z)){spotPos={x,z};break;}}
+ if(!spotPos){game.threatDelay=game.elapsed+8;return;}
+ Object.assign(game.enemy,{active:true,x:spotPos.x,z:spotPos.z,searchX:h.x,searchZ:h.z,alert:.85,warning:2.3,life:40});hunter.visible=true;hunter.position.set(spotPos.x,0,spotPos.z);game.threatDelay=Infinity;tone(90,.8,'sawtooth',.17,spotPos.x,spotPos.z);soundHint('ARKANDAN BİR DAL KIRILDI',3);}
+function catchPlayer(){if(game.mode!=='playing')return;game.enemy.active=false;hunter.visible=false;game.threatDelay=Infinity;game.charging=false;modal('caught');$('hurt').classList.add('on');tone(65,.65,'sawtooth',.28);}
+function updateEnemy(dt){const e=game.enemy;if(!e.active){hunter.visible=false;return;}e.life-=dt;e.warning=Math.max(0,e.warning-dt);const h=game.hero,dx=h.x-e.x,dz=h.z-e.z,d=Math.max(.01,Math.hypot(dx,dz));
+ const lightSeen=inTorchCone(e,18);const noisy=game.charging&&d<15;const walking=game.lastMoved;const seenSteps=walking&&d<6.5&&lineClear(e,h,.1);
+  if(lightSeen||noisy||seenSteps){e.searchX=h.x;e.searchZ=h.z;e.alert=Math.min(1,e.alert+dt*(lightSeen?.42:noisy?.35:.22));}
+  else e.alert=Math.max(0,e.alert-dt*(game.torch?.13:.33));
+ if(e.warning<=0){const target=e.alert>.1?{x:e.searchX,z:e.searchZ}:{x:e.x+Math.sin(game.elapsed*.8)*4,z:e.z+Math.cos(game.elapsed*.8)*4};const vx=target.x-e.x,vz=target.z-e.z,l=Math.hypot(vx,vz)||1,speed=game.charging?3.05:lightSeen?2.35:1.15;const nx=e.x+vx/l*speed*dt,nz=e.z+vz/l*speed*dt;if(isSafeWalk(nx,nz)){e.x=nx;e.z=nz;}else if(isSafeWalk(nx,e.z))e.x=nx;else if(isSafeWalk(e.x,nz))e.z=nz;else{const nx2=e.x-vz/l*speed*dt,nz2=e.z+vx/l*speed*dt;if(isSafeWalk(nx2,nz2)){e.x=nx2;e.z=nz2;}}
+ if(d<1.65&&lineClear(e,h,.04))catchPlayer();}
+ hunter.position.set(e.x,0,e.z);hunter.rotation.y=Math.atan2(h.x-e.x,h.z-e.z);gh.rotation.z=Math.sin(game.elapsed*3.1)*.08;gh.userData.arms?.forEach(a=>a.rotation.x=Math.sin(game.elapsed*2.5+a.userData.side)*.33);
+ if(Math.floor(game.elapsed*1.8)!==Math.floor((game.elapsed-dt)*1.8)&&d<19){tone(71,.14,'triangle',.09,e.x,e.z);soundHint(d<8?'AĞIR ADIMLAR YAKINDA':'UZAKTAN AYAK SESLERİ',1.7);}
+ if(e.life<=0||(e.alert<=.01&&d>16)){e.active=false;hunter.visible=false;game.threatDelay=game.elapsed+24;}
+}
+function updateMovement(dt){const h=game.hero,keys=controls.keys;let jx=controls.joyX,jy=controls.joyY;if(keys.has('w')||keys.has('arrowup'))jy-=1;if(keys.has('s')||keys.has('arrowdown'))jy+=1;if(keys.has('a')||keys.has('arrowleft'))jx-=1;if(keys.has('d')||keys.has('arrowright'))jx+=1;
+ const len=Math.hypot(jx,jy),pressed=len>.09;let moved=false;
+ if(pressed&&!game.charging){const right=V(1,0,0).applyQuaternion(camera.quaternion);right.y=0;right.normalize();const up=V(0,1,0).applyQuaternion(camera.quaternion);up.y=0;up.normalize();const v=right.multiplyScalar(jx/Math.max(1,len)).add(up.multiplyScalar(-jy/Math.max(1,len))).normalize();const speed=h.speed*(keys.has('shift')?1.3:1),nx=h.x+v.x*speed*dt,nz=h.z+v.z*speed*dt;if(isSafeWalk(nx,nz)){h.x=nx;h.z=nz;moved=true;}else if(isSafeWalk(nx,h.z)){h.x=nx;moved=true;}else if(isSafeWalk(h.x,nz)){h.z=nz;moved=true;}}
+ game.lastMoved=moved;const gait=reduceMotion?0:Math.sin(game.elapsed*(pressed?9:1.5))*(moved?.32:.03);leftLeg.rotation.x=gait;rightLeg.rotation.x=-gait;body.position.set(h.x,0,h.z);body.rotation.y=Math.PI/2-h.aim;
+ if(moved){game.footstepTime-=dt;if(game.footstepTime<=0){game.footstepTime=.39;tone(118,.065,'triangle',.032);}}else game.footstepTime=0;
+}
+let cameraBounds={};function resize(){const w=window.innerWidth,h=window.innerHeight,aspect=w/Math.max(1,h),v=aspect<.75?15:12.2;camera.left=-v*aspect;camera.right=v*aspect;camera.top=v;camera.bottom=-v;camera.updateProjectionMatrix();renderer.setSize(w,h,false);}window.addEventListener('resize',resize);resize();
+const clock=new T.Clock();let lastUI=-1,slowFrames=0,frameCount=0;
+function frame(){requestAnimationFrame(frame);let dt=Math.min(.045,clock.getDelta());if(document.hidden)return;
+ const h=game.hero;
+ if(game.mode==='playing'){
+  game.elapsed+=dt;game.listenCooldown=Math.max(0,game.listenCooldown-dt);game.saveCooldown-=dt;
+  updateMovement(dt);
+  updateEvidenceScan(dt);
+  if(game.stage===1&&!forkNudgeSeen&&dist(game.hero,{x:49,z:47})<7){forkNudgeSeen=true;showLine('İki yol. Solda paslı çan, sağda çamurlu köprü. İzi ışıkta ara.',5.4);}
+  if(game.charging){game.energy=clamp(game.energy+dt*21,0,100);game.chargeSeconds+=dt;
+    if(Math.floor(game.elapsed*4)!==Math.floor((game.elapsed-dt)*4))tone(230,.07,'square',.06);
+    if(game.stage>0&&game.chargeSeconds>1.35&&game.elapsed-game.lastChargeNoise>14){
+      game.lastChargeNoise=game.elapsed;game.threatDelay=Math.min(game.threatDelay,game.elapsed+7.5);
+      if(game.enemy.active){game.enemy.searchX=game.hero.x;game.enemy.searchZ=game.hero.z;game.enemy.alert=Math.max(game.enemy.alert,.75);}
+      soundHint('ŞARJ KOLU ÇOK YÜKSEK SES ÇIKARIYOR',2.7);
+    }
+    if(game.energy>=100)chargeEnd();
+   }else if(game.torch){const oldEnergy=game.energy;game.energy=Math.max(0,game.energy-dt*.95);
+    if(oldEnergy>15&&game.energy<=15&&game.elapsed-game.lastBatteryWarning>12){game.lastBatteryWarning=game.elapsed;soundHint('FENER ZAYIFLIYOR',2.7);tone(170,.23,'triangle',.04);}
+    if(game.energy<=.01){game.torch=false;showLine('Fener söndü. ŞARJ düğmesini basılı tut.',4.5);}}
+  if(game.stage>0&&!game.enemy.active&&game.elapsed>game.threatDelay){spawnEnemy();}
+  updateEnemy(dt);updateListener();
+  if(game.elapsed>game.showCaptionUntil)$('caption').classList.remove('show');if(game.elapsed>game.showSoundUntil)$('soundCue').classList.remove('on');
+  const action=closestAction();$('proximity').textContent=action?.text||'';$('proximity').classList.toggle('show',!!action);
+  if(game.saveCooldown<=0){game.saveCooldown=8;save();}
+  if(Math.floor(game.elapsed*2)!==lastUI){lastUI=Math.floor(game.elapsed*2);refreshHUD();}
+ }
+ // Scene uses a single spotlight, all materials use an extra world-space beam mask.
+ const aim=h.aim,dx=Math.cos(aim),dz=Math.sin(aim),on=(game.torch&&game.energy>.01&&game.mode!=='menu');
+ beamU.uBeamOrigin.value.set(h.x,1.65,h.z);beamU.uBeamDirection.value.set(dx,-.11,dz).normalize();beamU.uBeamPower.value=on?1:0;
+ spot.visible=on;spot.position.set(h.x-dx*.65,3.15,h.z-dz*.65);spot.target.position.set(h.x+dx*9,.45,h.z+dz*9);spot.target.updateMatrixWorld();
+ if(game.mode==='menu'){beamU.uBeamPower.value=0;spot.visible=false;}
+ const cameraAim=V(h.x+dx*2.4,.8,h.z+dz*2.4);cameraLook.lerp(cameraAim,1-Math.exp(-dt*3.4));camera.position.set(cameraLook.x+16.8,cameraLook.y+22,cameraLook.z-17.2);camera.lookAt(cameraLook);
+ renderer.render(scene,camera);
+ if(game.mode==='playing'&&dt>.033){slowFrames++;if(slowFrames>=55){renderer.setPixelRatio(Math.max(.9,renderer.getPixelRatio()-.17));slowFrames=0;}}
+ else slowFrames=Math.max(0,slowFrames-1);
+ frameCount++;
+}
+function initResume(){const s=readSave();$('startBtn').disabled=false;$('startBtn').textContent='YENİ ARAMAYA BAŞLA';$('loadState').textContent='V16 hazır · Fenerle gör, karanlıkta dinle.';if(s){$('resumeBtn').style.display='block';$('resumeBtn').textContent='KALDIĞIN YERDEN DEVAM ET · '+s.clues.length+'/3';} }
+initResume();frame();
+// Diagnostic surface is read-only, only enabled with ?qa=1 for local automated checks.
+if(new URLSearchParams(location.search).get('qa')==='1'){window.__SONISIK_V16_QA__={snapshot:()=>({mode:game.mode,stage:game.stage,route:game.route,clues:[...game.clues],revealed:[...game.revealed],pos:{x:game.hero.x,z:game.hero.z,aim:game.hero.aim},battery:game.energy,flash:game.torch,patchedShaders:shaderPatches,shadowEnabled:renderer.shadowMap.enabled,floorReceivesShadow:floor.receiveShadow,treeReceivesShadow:treeTopA.receiveShadow,listenCooldown:game.listenCooldown,chargeSeconds:game.chargeSeconds,ambientCount:scene.children.filter(x=>x.isAmbientLight||x.isHemisphereLight||x.isDirectionalLight).length}),move:(x,z)=>{game.hero.x=x;game.hero.z=z},aim:a=>{game.hero.aim=a},torch:on=>{game.torch=on},tick:dt=>{updateEvidenceScan(dt)},interact:doInteract,confirm:()=>document.querySelector('#modalPanel button.primary')?.click(),inspect:closestAction,guidance:missionTarget,lightAt:inTorchCone,seek:spawnEnemy,listen,chargeStart,chargeEnd,render:()=>renderer.render(scene,camera)};}
+}
+</script>
+</div>
+</body>
+</html>
