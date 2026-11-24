@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no" />
+<meta name="theme-color" content="#050706" />
+<meta name="description" content="SON IŞIK V24. Karanlıkta gözler, ışığın sınırında bekleyen silüetler ve üç bölümlü birinci şahıs korkusu." />
+<title>SON IŞIK V24 · BAKANLAR</title>
+<style>
+:root{color-scheme:dark;--bg:#050706;--text:#f0e7d8;--muted:#aaa79b;--cream:#d5b887;--red:#ac665c;--edge:rgba(220,200,162,.23);--safeTop:env(safe-area-inset-top,0px);--safeBottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{width:100%;height:100%;overflow:hidden;margin:0;background:#000;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;touch-action:none}body{color:var(--text);-webkit-font-smoothing:antialiased}button{font:inherit;cursor:pointer;color:inherit;-webkit-tap-highlight-color:transparent}button:focus-visible{outline:2px solid var(--cream);outline-offset:3px}button:disabled{opacity:.34;cursor:default}#gameRoot{position:fixed;inset:0;background:#020403;isolation:isolate}#worldCanvas{display:block;width:100%;height:100%;touch-action:none;outline:0}#darkCorners{pointer-events:none;position:absolute;inset:0;z-index:3;background:radial-gradient(ellipse 68% 65% at 50% 45%,transparent 30%,rgba(0,0,0,.25) 68%,rgba(0,0,0,.78) 100%),linear-gradient(180deg,rgba(0,0,0,.56),transparent 23%,transparent 73%,rgba(0,0,0,.48));}#breatheVeil{pointer-events:none;position:absolute;inset:0;z-index:4;opacity:0;background:radial-gradient(ellipse at center,transparent 37%,rgba(85,9,10,.28) 100%);transition:opacity .3s}#faultCurtain{pointer-events:none;position:absolute;inset:0;z-index:5;background:#000;opacity:0;transition:opacity .2s ease}#faultCurtain.on{opacity:.08}#lookZone{position:absolute;top:0;right:0;bottom:0;width:61%;z-index:6;touch-action:none}#hud{pointer-events:none;position:absolute;inset:0;z-index:9}#hud button,#hud #stickBase{pointer-events:auto}.hidden{display:none!important}.hudTop{position:absolute;top:0;left:0;right:0;display:flex;align-items:flex-start;gap:15px;justify-content:space-between;padding:calc(18px + var(--safeTop)) 20px 0}.chapterInfo{flex:1;min-width:0}.eyebrow{font-size:10px;letter-spacing:.2em;font-weight:700;color:var(--cream);text-transform:uppercase}.brandSmall{font-size:21px;letter-spacing:-.06em;font-weight:850;margin-top:7px}.fpTag{font-size:8px;color:#a4a89c;font-weight:600;letter-spacing:.12em;padding-left:7px}.batteryPanel{width:111px;margin-top:2px;padding:10px 10px 8px;border:1px solid rgba(230,224,203,.2);background:rgba(1,5,4,.52);backdrop-filter:blur(14px);border-radius:7px}.batteryLabel,.batterySub{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.08em;color:#bbb9af}.batteryLabel span{color:#ece8c7;font-variant-numeric:tabular-nums}.batteryTrack{height:4px;margin:9px 0 6px;background:#27302a;border-radius:10px;overflow:hidden}.batteryTrack span{display:block;width:96%;height:100%;background:linear-gradient(90deg,#8eae7a,#d8c58f);transition:width .25s,background .2s}.batteryPanel.low .batteryTrack span{background:#be6658}.batterySub strong{color:#ece8c7;font-size:10px}.iconButton{width:34px;height:34px;border:1px solid var(--edge);background:rgba(0,0,0,.5);border-radius:8px;font-size:18px;margin-top:2px}#crosshair{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;gap:4px;align-items:center;justify-content:center;opacity:.84}#crosshair span{width:8px;height:1px;background:rgba(230,230,218,.68)}#crosshair i{width:3px;height:3px;border:1px solid #f2e9cc;border-radius:50%}#crosshair.focus i{background:var(--cream);box-shadow:0 0 14px 2px rgba(241,197,138,.7)}#focusTag{position:absolute;top:calc(50% + 21px);left:50%;transform:translateX(-50%);white-space:nowrap;font-size:10px;letter-spacing:.14em;color:#d7cbae;opacity:0;transition:opacity .2s}#focusTag.on{opacity:1}#caption{position:absolute;left:50%;bottom:calc(30% + 24px);transform:translateX(-50%);max-width:min(87%,570px);padding:9px 16px;background:rgba(4,9,8,.74);border-left:2px solid rgba(197,164,113,.7);font-size:12px;line-height:1.45;letter-spacing:.035em;color:#e6dfd1;text-align:center;opacity:0;transition:opacity .25s;backdrop-filter:blur(6px);pointer-events:none}#caption.show{opacity:1}.objective{position:absolute;bottom:calc(27% + 13px);left:21px;padding:0 12px 0 10px;border-left:2px solid rgba(223,197,144,.55);max-width:min(42vw,230px)}.objective strong{font-size:12px;line-height:1.3;display:block;margin:5px 0 4px;font-weight:800}.objective small{display:block;font-size:10px;line-height:1.35;color:#bbb7ae}#bottomControls{position:absolute;left:0;right:0;bottom:calc(14px + var(--safeBottom));display:flex;align-items:flex-end;justify-content:space-between;padding:0 19px;gap:16px}#stickBase{width:120px;height:120px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:radial-gradient(circle,rgba(235,235,210,.075),rgba(5,10,10,.19) 65%);position:relative;flex:none;touch-action:none;user-select:none}#stickBase:before,#stickBase:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.07);border-radius:100%;inset:21px}#stickBase:after{inset:42px}#stickCap{position:absolute;left:50%;top:50%;width:48px;height:48px;margin:-24px;border-radius:50%;background:rgba(213,203,178,.22);border:1px solid rgba(239,223,186,.34);box-shadow:0 0 17px rgba(0,0,0,.3);transform:translate(0,0)}#stickBase small{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-size:9px;letter-spacing:.18em;color:#9da09b}.buttonCluster{display:grid;grid-template-columns:repeat(3,56px);grid-template-rows:52px 61px;column-gap:8px;row-gap:8px;align-items:stretch}.controlButton{border-radius:9px;border:1px solid var(--edge);background:rgba(12,20,18,.75);backdrop-filter:blur(12px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:0;touch-action:manipulation}.controlButton .controlIcon{font-size:16px;line-height:1}.controlButton span:last-child{font-weight:700;font-size:8px;letter-spacing:.05em;white-space:nowrap}.controlButton:active{transform:scale(.96)}#actionButton{grid-column:1 / span 3;grid-row:2;background:rgba(195,163,117,.94);color:#161916;border-color:rgba(242,211,160,.88);flex-direction:row;gap:9px}#actionButton span:last-child{font-size:11px;letter-spacing:.14em}#actionButton:disabled{opacity:.36;background:rgba(20,25,22,.8);color:#bcb9a6}#helpNote{position:absolute;bottom:calc(3px + var(--safeBottom));left:50%;transform:translateX(-50%);white-space:nowrap;font-size:8px;letter-spacing:.13em;color:rgba(214,202,175,.6)}#screenLayer{position:absolute;inset:0;z-index:30;pointer-events:none}#screenLayer .screen{pointer-events:auto}.screen{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain}.intro{padding:calc(19px + var(--safeTop)) max(24px,5vw) calc(18px + var(--safeBottom));background:radial-gradient(ellipse 52% 45% at 76% 47%,rgba(60,69,51,.17),transparent 75%),linear-gradient(110deg,rgba(5,8,6,.98),rgba(3,7,6,.89)),#050807;display:flex;flex-direction:column}.intro:before{content:"";position:absolute;right:15%;top:8%;bottom:0;width:3px;transform:rotate(-6deg);background:linear-gradient(180deg,transparent,rgba(82,89,66,.21),transparent);box-shadow:60px 30px 100px rgba(61,82,50,.11),-110px 50px 95px rgba(71,89,64,.12);pointer-events:none}.topBar,.bottomBar{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.18em;color:rgba(229,222,197,.49);font-weight:700}.introContent{width:min(100%,660px);margin:auto 0;position:relative;padding:20px 0}.introMark{font-size:10px;letter-spacing:.25em;color:#d5bc8f;font-weight:750;display:flex;align-items:center;gap:11px}.markBar{width:24px;height:1px;background:#d5bc8f}.intro h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(86px,13.4vw,184px);line-height:.76;letter-spacing:-.085em;margin:29px 0 37px;font-weight:500}.intro h1 i{font-style:normal;color:#b8aa8e}.introLead{font-family:Georgia,serif;font-size:clamp(21px,3.2vw,33px);letter-spacing:-.025em;line-height:1.17;max-width:480px;margin:0 0 15px}.introCopy{color:#b3b1a5;font-size:13px;line-height:1.7;max-width:450px;margin:0 0 27px}.guide{border-top:1px solid var(--edge);border-bottom:1px solid var(--edge);padding:10px 0;margin-bottom:21px;max-width:500px}.guide div{display:flex;align-items:baseline;gap:16px;padding:7px 0;font-size:11px;color:#bdb9a9}.guide b{color:#bca17c;font-size:10px;letter-spacing:.1em}.mainButton{width:min(100%,450px);display:flex;justify-content:space-between;align-items:center;background:#d5b887;border:1px solid #e3c99e;border-radius:3px;padding:18px 20px;color:#111510;letter-spacing:.16em;font-size:11px;font-weight:850;text-align:left}.mainButton span{font-size:18px;font-weight:400}.mainButton:hover{background:#edce99}.textButton{display:block;border:none;background:none;padding:14px 0;color:#e4d8c0;letter-spacing:.14em;font-size:10px;text-decoration:none}.introFooter{margin-top:20px;font-size:9px;line-height:1.7;letter-spacing:.085em;color:#aaa495}.overlayScreen{background:linear-gradient(110deg,rgba(2,5,4,.98),rgba(7,13,11,.98));display:flex;flex-direction:column;align-items:center;justify-content:center;padding:25px;text-align:center}.sectionKicker{font-size:10px;letter-spacing:.25em;color:#cbb18b;font-weight:750}.overlayScreen h2{font-family:Georgia,serif;font-size:clamp(52px,11vw,106px);line-height:.91;letter-spacing:-.06em;font-weight:500;margin:22px 0}.overlayScreen p{font-size:14px;line-height:1.7;color:#c4bfb2;max-width:440px;margin:0 0 30px}.overlayScreen .mainButton{max-width:340px;margin:0 auto 12px}.outlineButton{background:none;border:1px solid var(--edge);padding:12px 15px;min-width:230px;letter-spacing:.12em;font-size:10px;margin:5px auto}.choices{width:min(100%,530px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.choices button{text-align:left;min-height:116px;background:rgba(220,200,165,.06);border:1px solid var(--edge);padding:18px;border-radius:5px}.choices button:hover{border-color:#c6a578;background:rgba(220,200,165,.13)}.choices strong{display:block;font-size:12px;letter-spacing:.12em;margin-bottom:16px}.choices span{display:block;color:#a9aa9e;font-size:11px;line-height:1.45}#deathScreen{background:#000}#deathEyes{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.88}#deathEyes .smallEye{position:absolute;width:var(--w);height:calc(var(--w) * .46);border:1px solid rgba(202,187,172,.28);background:radial-gradient(ellipse 24% 68% at center,#121110 2%,#685d57 30%,#9a897f 48%,#191612 59%,rgba(22,19,17,.95) 61%);border-radius:70% 12% 70% 15%/65% 22% 60% 32%;transform:translate(-50%,-50%) rotate(var(--r));filter:blur(var(--blur));box-shadow:0 0 19px rgba(103,61,58,.13);animation:eyePulse 4s ease-in-out infinite alternate;animation-delay:var(--delay)}#deathEyes:before,#deathEyes:after{content:"";position:absolute;top:35%;width:32vw;max-width:270px;height:18vw;max-height:150px;background:radial-gradient(ellipse 22% 65% at 49% 54%,#080706 0 26%,#a49587 30%,#564941 42%,#140f0d 55%,rgba(15,13,12,.96) 66%);border:3px solid rgba(171,143,126,.42);border-radius:65% 12% 68% 17%/63% 35% 67% 23%;box-shadow:0 0 40px 13px rgba(81,18,19,.2);z-index:1}#deathEyes:before{left:49%;transform:translateX(-108%) rotate(-13deg)}#deathEyes:after{right:49%;transform:translateX(108%) rotate(13deg)}.deathCopy{position:relative;z-index:2;margin-top:24vh;padding:22px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.8) 20%,rgba(0,0,0,.9) 80%,transparent)}.deathCopy h2{text-shadow:0 0 30px #000}.deathCopy p{text-shadow:0 1px 10px #000}@keyframes eyePulse{from{opacity:.55}to{opacity:1}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}@media(max-width:650px){.hudTop{padding:calc(12px + var(--safeTop)) 12px 0;gap:7px}.brandSmall{font-size:17px}.fpTag{display:none}.batteryPanel{width:99px}.objective{left:13px;bottom:calc(171px + var(--safeBottom));max-width:57vw}.objective small{font-size:10px}#caption{bottom:calc(248px + var(--safeBottom));font-size:11px;max-width:90%}.buttonCluster{grid-template-columns:repeat(3,51px);grid-template-rows:49px 54px;gap:6px}#bottomControls{padding:0 12px;bottom:calc(26px + var(--safeBottom))}#stickBase{width:108px;height:108px}.controlButton span:last-child{font-size:7px}#actionButton span:last-child{font-size:10px}.intro h1{font-size:clamp(86px,21vw,132px)}.introContent{padding:12px 0}.introLead{font-size:23px}.introCopy{font-size:12px}.guide{margin-bottom:15px}.guide div{font-size:10px}.introFooter{font-size:8px}#helpNote{display:none}.choices{grid-template-columns:1fr}.choices button{min-height:84px}.overlayScreen h2{font-size:54px}}@media(max-width:360px){#stickBase{width:100px;height:100px}#bottomControls{padding:0 9px}.buttonCluster{grid-template-columns:repeat(3,47px);grid-template-rows:46px 52px;gap:5px}.hudTop{padding:calc(9px + var(--safeTop)) 8px 0}.batteryPanel{width:90px;padding:7px}.iconButton{width:31px;height:31px}.brandSmall{font-size:16px}.objective{bottom:calc(155px + var(--safeBottom));max-width:58vw}#caption{bottom:calc(234px + var(--safeBottom))}}@media(max-height:670px) and (orientation:landscape){.hudTop{padding:calc(9px + var(--safeTop)) 12px 0}.objective{bottom:24px;left:160px;max-width:30vw}.buttonCluster{grid-template-columns:repeat(4,51px);grid-template-rows:53px}.buttonCluster #actionButton{grid-column:4;grid-row:1}#bottomControls{padding:0 12px;bottom:calc(23px + var(--safeBottom))}#stickBase{width:96px;height:96px}#caption{bottom:18%;font-size:11px}.introContent{margin:auto 0;padding:10px 0}.intro h1{font-size:clamp(60px,9vw,100px);margin:16px 0 15px}.introLead{font-size:20px}.introCopy{margin-bottom:14px}.guide{display:none}.introFooter{margin-top:7px}}@media (pointer:fine) and (min-width:900px){#bottomControls{opacity:.46;transform:scale(.72);transform-origin:right bottom;pointer-events:none}#bottomControls button,#bottomControls #stickBase{pointer-events:none!important}#helpNote{display:block}.objective{bottom:40px}#caption{bottom:110px}} 
+
+</style>
+</head>
+<body>
+<div id="gameRoot">
+<canvas id="worldCanvas" aria-label="Karanlık ormanın birinci şahıs üç boyutlu görünümü"></canvas>
+<div id="darkCorners" aria-hidden="true"></div>
+<div id="breatheVeil" aria-hidden="true"></div>
+<div id="faultCurtain" aria-hidden="true"></div>
+<div id="lookZone" aria-label="Parmakla bakış yönünü kontrol et"></div>
+<div id="hud" class="hidden">
+  <div class="hudTop">
+    <div class="chapterInfo"><div class="eyebrow" id="chapterLabel">BÖLÜM I / KAYIP PARK</div><div class="brandSmall">SON IŞIK <span class="fpTag">BİRİNCİ ŞAHIS</span></div></div>
+    <div class="batteryPanel" id="batteryPanel"><div class="batteryLabel">FENER <span id="batteryNumber">%96</span></div><div class="batteryTrack"><span id="batteryFill"></span></div><div class="batterySub">YEDEK PİL <strong id="spareCount">02</strong></div></div>
+    <button type="button" class="iconButton" id="pauseButton" aria-label="Oyunu duraklat">Ⅱ</button>
+  </div>
+  <div id="crosshair" aria-hidden="true"><span></span><i></i><span></span></div>
+  <div id="focusTag" aria-live="polite"></div>
+  <div id="caption" aria-live="polite"></div>
+  <div id="objective" class="objective"><span class="eyebrow">HEDEF</span><strong id="objectiveText">İlk izi bul</strong><small id="objectiveHint">Elif’in ayakkabısı ormanda.</small></div>
+  <div id="bottomControls">
+    <div id="stickBase" aria-label="Hareket kontrolü"><div id="stickCap"></div><small>YÜRÜ</small></div>
+    <div class="buttonCluster">
+      <button type="button" id="listenButton" class="controlButton secondary"><span class="controlIcon">◉</span><span>DİNLE</span></button>
+      <button type="button" id="torchButton" class="controlButton secondary"><span class="controlIcon">⌁</span><span>FENER</span></button>
+      <button type="button" id="batteryButton" class="controlButton secondary"><span class="controlIcon">▣</span><span>PİL TAK</span></button>
+      <button type="button" id="actionButton" class="controlButton primary" disabled><span class="controlIcon">✦</span><span id="actionText">İNCELE</span></button>
+    </div>
+  </div>
+  <div id="helpNote">SOL PARMAK: YÜRÜ · SAĞ PARMAK: BAK</div>
+</div>
+<div id="screenLayer">
+  <section class="screen intro" id="introScreen" aria-labelledby="gameTitle">
+    <div class="topBar"><span>GECE 23:17</span><span>SES KAYDI / 001</span></div>
+    <div class="introContent">
+      <div class="introMark"><span class="markBar"></span> ELİF'İN İZİ KAYBOLDU</div>
+      <h1 id="gameTitle">SON<br><i>IŞIK</i></h1>
+      <p class="introLead">“Baba, sesimi duyarsan hemen gelme.”</p>
+      <p class="introCopy">Kızın Elif kayıp. Onun izini süren yalnız sen değilsin. Orman artık onun sesini de biliyor.</p>
+      <div class="guide"><div><b>01</b><span>Yalnızca fenerin aydınlattığı yeri gör.</span></div><div><b>02</b><span>Feneri kapatıp durarak dinle.</span></div><div><b>03</b><span>Pil sıfırlanırsa karanlık kazanır.</span></div></div>
+      <button type="button" class="mainButton" id="startButton">ORMANA GİR <span>↗</span></button>
+      <button type="button" class="textButton hidden" id="resumeButton">KALDIĞIN YERDEN DEVAM ET</button>
+      <button type="button" class="textButton hidden" id="importButton">V23 / V22 KAYDIMI İÇE AKTAR</button>
+      <div class="introFooter">MOBİL: SOL PARMAK YÜRÜ · SAĞ PARMAK BAK &nbsp; / &nbsp; PC: WASD + FARE · E İNCELE · F FENER · R PİL · Q DİNLE</div>
+    </div>
+    <div class="bottomBar"><span>SON IŞIK / V24</span><span>KULAKLIK ÖNERİLİR</span></div>
+  </section>
+  <section class="screen overlayScreen hidden" id="chapterScreen" role="dialog" aria-modal="true">
+    <div class="sectionKicker" id="chapterKicker">BÖLÜM II</div><h2 id="chapterTitle">BOĞULMUŞ KORULUK</h2><p id="chapterDescription"></p>
+    <button type="button" class="mainButton" id="chapterContinue">DEVAM ET <span>↗</span></button>
+  </section>
+  <section class="screen overlayScreen hidden" id="branchScreen" role="dialog" aria-modal="true"><div class="sectionKicker">BİR KARAR VERMELİSİN</div><h2>ORMAN İKİYE AYRILIYOR.</h2><p>Çanların sesini mi takip edeceksin, yoksa suyun içine mi gireceksin? Her ikisi de Elif’in izine çıkıyor.</p><div class="choices"><button type="button" id="bellChoice"><strong>ÇAN PATİKASI</strong><span>Ses çıkarırsan bir şey seni duyabilir.</span></button><button type="button" id="riverChoice"><strong>DERE PATİKASI</strong><span>Su ağırlaştırır. Saklanmak daha zor olabilir.</span></button></div></section>
+  <section class="screen overlayScreen hidden" id="pauseScreen" role="dialog" aria-modal="true"><div class="sectionKicker">OYUN DURAKLATILDI</div><h2>SESSİZLİK.</h2><p>Şimdilik güvendesin.</p><button type="button" class="mainButton" id="continueButton">DEVAM ET <span>↗</span></button><button type="button" class="outlineButton" id="soundButton">SES: AÇIK</button><button type="button" class="outlineButton" id="motionButton">KAMERA SALINIMI: AÇIK</button><button type="button" class="textButton" id="backToMenu">ANA MENÜ</button></section>
+  <section class="screen overlayScreen hidden" id="deathScreen" role="alertdialog" aria-modal="true"><div id="deathEyes" aria-hidden="true"></div><div class="deathCopy"><div class="sectionKicker">ARKANDA BİR ŞEY VAR</div><h2 id="deathTitle">IŞIK SÖNDÜ.</h2><p id="deathDescription">Karanlıkta ilk duyduğun şey kendi nefesin değildi.</p><button type="button" class="mainButton" id="retryButton">BÖLÜMDEN TEKRAR BAŞLA <span>↗</span></button><button type="button" class="textButton" id="deathMenu">ANA MENÜ</button></div></section>
+  <section class="screen overlayScreen hidden" id="winScreen" role="dialog" aria-modal="true"><div class="sectionKicker">SON IŞIK / BÖLÜM SONU</div><h2>BU KEZ<br>DOĞRU SES.</h2><p>İçeride küçük bir el seni buluyor. Dışarıda bir başkası, aynı vuruşları ezberlemeye çalışıyor.</p><button type="button" class="mainButton" id="winRestart">YENİDEN OYNA <span>↗</span></button></section>
+  <section class="screen overlayScreen hidden" id="errorScreen" role="alert"><h2>ORMAN AÇILAMADI.</h2><p id="errorDescription">Bu cihazda WebGL başlatılamadı.</p><button type="button" class="mainButton" id="backButton">ANA MENÜ <span>↗</span></button><a href="./v23.html" class="textButton">V23'E DÖN</a></section>
+</div>
+</div>
+<script type="module">
+const $=id=>document.getElementById(id);
+const SAVE_KEY='sonIsikV24Watchers',PREVIOUS_KEY='sonIsikV23FirstPerson',OLDER_KEY='sonIsikV22ThreeZones';
+const MOBILE=matchMedia('(pointer:coarse)').matches||Math.min(innerWidth,innerHeight)<570;
+const prefersReduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const distance=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z);
+const safeJSON=(s)=>{try{return JSON.parse(s)}catch{return null}};
+const storageRead=(key)=>{try{return localStorage.getItem(key)}catch{return null}};
+let soundEnabled=true,bobEnabled=!prefersReduced;
+let T,renderer,scene,camera,clock,flashlight,flashTarget,forest,branches=[],obstacles=[],stageWorld={},evidenceMeshes={},batteryMeshes=[],creature,creatureRoot,glimpse,doorMeshes=[],parkSwing,clothPieces=[];
+let sceneReady=false,loadingError=null;
+const WORLD={minX:14,maxX:87,minZ:4,maxZ:116};
+const START={x:48,z:9};
+const pathPark=[{x:48,z:9},{x:52,z:19},{x:43,z:31},{x:47,z:43},{x:49,z:47}];
+const pathBell=[{x:49,z:47},{x:37,z:57},{x:40,z:67},{x:52,z:75}];
+const pathRiver=[{x:49,z:47},{x:63,z:56},{x:67,z:66},{x:52,z:75}];
+const pathEnd=[{x:52,z:75},{x:61,z:85},{x:52,z:99},{x:52,z:113}];
+const ALL_PATHS=[pathPark,pathBell,pathRiver,pathEnd];
+const POINTS={shoe:{x:43.4,z:30.6,y:.35},junction:{x:49,z:47,y:1},bell:{x:37,z:57,y:1},river:{x:63,z:56,y:1},bracelet:{x:60.9,z:84.8,y:.67},left:{x:50.5,z:110.9,y:1.45},right:{x:53.7,z:110.9,y:1.45}};
+const batteryPoints=[{x:47,z:39,y:.42},{x:53,z:77,y:.42},{x:61,z:95,y:.42}];
+const chapterNames=['','KAYIP PARK','BOĞULMUŞ KORULUK','SON GEÇİT'];
+const CHAPTER_CHECKPOINTS={1:{x:48,z:9},2:{x:49,z:52},3:{x:59.5,z:84}};
+const initial=()=>({mode:'menu',stage:0,chapter:1,route:null,hero:{x:START.x,z:START.z,yaw:Math.PI,pitch:-.08},energy:96,spares:2,taken:[],elapsed:0,chapterTime:0,torch:true,faultUntil:0,faultAt:28,exposed:0,noise:0,lastStep:0,lastMovement:0,lastListen:0,firstKnock:false,lookedAtMonster:false,moved:false,sprint:false,encountersSeen:[],omenAt:16,omenUntil:0,omenActive:false,threat:{mode:'idle',x:0,z:0,tx:0,tz:0,time:0,stare:0,alert:0,next:31,warningUntil:0,searchTime:0},captionUntil:0,captionText:'',lastSave:0,wrongDoor:false,waitForDoor:null});
+let G=initial(),lastFrame=performance.now(),lookPointer=null,joystickPointer=null,stick={x:0,y:0},keys={},touchLast={x:0,y:0},stepAccumulator=0,lastHudAt=0,offscreenTimer=0;
+const seeded=(()=>{let n=361217;return()=>{n=(Math.imul(n,1664525)+1013904223)>>>0;return n/4294967296;};})();
+const rand=(a,b)=>a+(b-a)*seeded();
+const setHidden=(id,hide)=>$(id)?.classList.toggle('hidden',hide);
+const isPlaying=()=>G.mode==='playing';
+const v3=(x,y,z)=>new T.Vector3(x,y,z);
+const mat=(color,roughness=1,metalness=0)=>new T.MeshStandardMaterial({color,roughness,metalness});
+const material={};
+let geo={};
+function addMesh(parent,geometry,material,x=0,y=0,z=0,sx=1,sy=1,sz=1,cast=true){const m=new T.Mesh(geometry,material);m.position.set(x,y,z);m.scale.set(sx,sy,sz);m.castShadow=cast;m.receiveShadow=true;parent.add(m);return m}
+function group(parent,x=0,y=0,z=0){const g=new T.Group();g.position.set(x,y,z);parent.add(g);return g}
+function lineDistance(x,z,a,b){const vx=b.x-a.x,vz=b.z-a.z,u=clamp(((x-a.x)*vx+(z-a.z)*vz)/(vx*vx+vz*vz||1),0,1);return Math.hypot(x-a.x-u*vx,z-a.z-u*vz)}
+function pathDistance(x,z,paths=ALL_PATHS){let d=Infinity;for(const pts of paths){for(let i=1;i<pts.length;i++){d=Math.min(d,lineDistance(x,z,pts[i-1],pts[i]));}}return d}
+function canWalk(x,z){if(x<WORLD.minX||x>WORLD.maxX||z<WORLD.minZ||z>WORLD.maxZ)return false;
+ if(G.chapter===1){if(z>48.2)return false;if(pathDistance(x,z,[pathPark])>5.3)return false;}
+ else if(G.chapter===2){if(z<49||z>87)return false;const route=G.route==='river'?pathRiver:pathBell;if(pathDistance(x,z,[route,pathEnd])>5.8)return false;}
+ else {if(z<81||z>114.3)return false;if(pathDistance(x,z,[pathEnd])>5.8)return false;}
+ if(G.chapter===3&&z>111.35&&x>48.1&&x<56.3)return false;
+ for(const o of obstacles){if(Math.hypot(x-o.x,z-o.z)<o.radius+.43)return false;}return true;}
+function tryMove(dx,dz){const speed=Math.hypot(dx,dz);if(speed<.0001)return false;let stepped=false;const steps=Math.max(1,Math.ceil(speed/.34)),xStep=dx/steps,zStep=dz/steps;for(let i=0;i<steps;i++){const nx=G.hero.x+xStep,nz=G.hero.z+zStep;if(canWalk(nx,nz)){G.hero.x=nx;G.hero.z=nz;stepped=true;continue;}if(canWalk(nx,G.hero.z)){G.hero.x=nx;stepped=true;}if(canWalk(G.hero.x,nz)){G.hero.z=nz;stepped=true;}}return stepped}
+function forward(yaw=G.hero.yaw){return{x:-Math.sin(yaw),z:-Math.cos(yaw)}}
+function right(yaw=G.hero.yaw){return{x:Math.cos(yaw),z:-Math.sin(yaw)}}
+function look(dx,dy){G.hero.yaw-=dx*(MOBILE?.0075:.0025);G.hero.pitch=clamp(G.hero.pitch-dy*(MOBILE?.0052:.0023),-.85,.82);}
+function cameraForward(){return new T.Vector3(0,0,-1).applyQuaternion(camera.quaternion).normalize()}
+function faceTarget(p){const a=v3(p.x,p.y??1,p.z).sub(camera.position),len=a.length();if(len<.01)return false;const dir=cameraForward();return dir.dot(a.divideScalar(len))>Math.cos(len<4?.34:.23)}
+function inLight(p,max=22){if(!G.torch||G.energy<=0||G.faultUntil>G.elapsed||G.mode!=='playing')return false;const d=Math.hypot(G.hero.x-p.x,G.hero.z-p.z);return d<max&&beamReaches(p)}
+function worldVisible(p){return inLight(p,24)}
+function beamAngle(){const half=Math.atan(Math.tan((camera?.fov||78)*Math.PI/360)*(camera?.aspect||.55));return clamp(half*.72,.23,.51);}
+function setRendererSize(){if(!renderer)return;const w=innerWidth,h=innerHeight;renderer.setPixelRatio(Math.min(devicePixelRatio||1,MOBILE?1.35:1.75));renderer.setSize(w,h,false);camera.aspect=w/h;camera.fov=w<h?78:73;camera.updateProjectionMatrix();if(flashlight)flashlight.angle=beamAngle();}
+function createForest(){forest=group(scene);
+ const ground=addMesh(forest,new T.PlaneGeometry(115,139),material.ground,51,-.045,60,1,1,1,false);ground.rotation.x=-Math.PI/2;
+ // Different ground colors are only visible when illuminated by the actual flashlight.
+ for(const [pts,width,matName] of [[pathPark,4.5,'path'],[pathBell,4,'path'],[pathRiver,4,'wet'],[pathEnd,4.6,'path']]){
+  for(let i=1;i<pts.length;i++){const a=pts[i-1],b=pts[i],dx=b.x-a.x,dz=b.z-a.z,len=Math.hypot(dx,dz);const p=addMesh(forest,geo.box,material[matName],(a.x+b.x)/2,.012,(a.z+b.z)/2,width,.044,len,false);p.rotation.y=Math.atan2(dx,dz);p.receiveShadow=true;}
+ }
+ const tCount=MOBILE?175:260;const trunk=new T.InstancedMesh(geo.trunk,material.trunk,tCount);const canopy=new T.InstancedMesh(geo.cone,material.needles,tCount*3);const dummy=new T.Object3D();let placed=0;
+ for(let attempt=0;attempt<tCount*26&&placed<tCount;attempt++){
+  const x=rand(15,87),z=rand(4,116);if(pathDistance(x,z)<4.0||obstacles.some(o=>Math.hypot(x-o.x,z-o.z)<1.9))continue;
+  const H=rand(6.8,14.4),W=rand(1.8,3.4),twist=rand(0,6.28),rad=rand(.5,.85);
+  obstacles.push({x,z,radius:rad});dummy.position.set(x,H*.35,z);dummy.rotation.set(0,twist,0);dummy.scale.set(rad,H*.7,rad);dummy.updateMatrix();trunk.setMatrixAt(placed,dummy.matrix);
+  for(let j=0;j<3;j++){dummy.position.set(x,H*(.6+j*.13),z);dummy.rotation.set(0,twist,0);dummy.scale.set(W*(1-j*.22),H*(.5-j*.08),W*(1-j*.22));dummy.updateMatrix();canopy.setMatrixAt(placed*3+j,dummy.matrix)}
+  placed++;
+ }
+ trunk.count=placed;canopy.count=placed*3;trunk.instanceMatrix.needsUpdate=true;canopy.instanceMatrix.needsUpdate=true;trunk.castShadow=!MOBILE;canopy.castShadow=!MOBILE;trunk.receiveShadow=true;canopy.receiveShadow=true;forest.add(trunk,canopy);
+ // Dead branches and bushes silhouette changes enrich the narrow cone without costly lights.
+ for(let i=0;i<(MOBILE?80:145);i++){
+  let x=rand(19,81),z=rand(8,113);if(pathDistance(x,z)<2.0)continue;const g=group(forest,x,0,z);const stem=addMesh(g,geo.cone,material.bush,0,.45,0,rand(.6,1.3),rand(1.1,2.0),rand(.6,1.3),false);stem.rotation.z=rand(-.18,.18);
+ }
+ for(let i=0;i<57;i++){const z=rand(11,113),x=rand(26,75);if(pathDistance(x,z)>5.5||pathDistance(x,z)<2.6)continue;const rock=addMesh(forest,geo.dodeca,material.rock,x,.12,z,rand(.18,.56),rand(.16,.25),rand(.22,.5),false);rock.rotation.y=rand(0,6.28)}
+}
+function createPark(){const root=stageWorld[1]=group(scene);
+ // Broken fence, toy swing, boot and scattered child blocks.
+ for(const side of [-1,1])for(let j=0;j<10;j++){const x=44+side*5.5+Math.sin(j)*.7,z=23+j*.9;if(pathDistance(x,z)<2.8)continue;const post=addMesh(root,geo.box,material.fence,x,.68,z,.16,1.36,.17);post.rotation.z=rand(-.05,.06)}
+ const swing=group(root,47.1,0,28);for(const d of [-1,1])addMesh(swing,geo.cylinder,material.metal,d*1.2,1.83,0,.10,3.6,.10).rotation.z=d*.22;
+ addMesh(swing,geo.box,material.metal,0,3.38,0,3.1,.1,.11);const seat=group(swing,0,0,0);for(const d of [-1,1])addMesh(seat,geo.cylinder,material.chain,d*.59,2,0,.024,2.6,.024);addMesh(seat,geo.box,material.fence,0,.74,0,1.4,.18,.55);parkSwing=seat;
+ for(let i=0;i<7;i++){const x=42+rand(-3,3),z=28+rand(-4,4);if(distance({x,z},POINTS.shoe)<1.5)continue;const m=addMesh(root,geo.box,i%2?material.toy:material.fence,x,.22,z,.3,.38,.32);m.rotation.y=rand(0,6.28)}
+ const shoe=group(root,POINTS.shoe.x,POINTS.shoe.y,POINTS.shoe.z);addMesh(shoe,geo.box,material.toy,0,0,0,.38,.18,.66);addMesh(shoe,geo.sphere,material.toy,0,.14,-.22,.3,.21,.23);addMesh(shoe,geo.box,material.dark,-.04,.19,.12,.3,.1,.16);evidenceMeshes.shoe=shoe;
+ // Familiar two-knock learning point.
+ for(let i=0;i<4;i++)addMesh(root,geo.box,material.fence,46+i*.4,.11,29.9,.16,.2,.12);
+}
+function createMarsh(){const root=stageWorld[2]=group(scene);
+ const water=material.water;for(let j=1;j<pathRiver.length;j++){const a=pathRiver[j-1],b=pathRiver[j],dx=b.x-a.x,dz=b.z-a.z,len=Math.hypot(dx,dz);const p=addMesh(root,geo.box,water,(a.x+b.x)/2,.035,(a.z+b.z)/2,6,.058,len,false);p.rotation.y=Math.atan2(dx,dz);}
+ for(let i=0;i<15;i++){const z=56+rand(0,15),x=34+rand(-2,8);const t=group(root,x,0,z);addMesh(t,geo.cylinder,material.trunk,0,1.9,0,.13,3.8,.13);const coat=group(t,0,2.2,0);const torso=addMesh(coat,geo.cone,i%3?material.coat:material.coatAlt,0,-.42,0,.92,1.7,.6);torso.rotation.z=rand(-.17,.17);for(const a of [-1,1]){const sleeve=addMesh(coat,geo.cylinder,material.coatAlt,a*.52,-.26,0,.21,1.5,.22);sleeve.rotation.z=a*.3;}clothPieces.push(coat);}
+ for(let i=0;i<8;i++){const z=55+i*2.35,x=39+Math.sin(i*1.2)*1.7;const c=group(root,x,0,z);addMesh(c,geo.cylinder,material.metal,0,3.3,0,.05,6.6,.05);const bell=addMesh(c,geo.cone,material.brass,0,2.3,0,.27,.46,.27);bell.rotation.z=rand(-.15,.15)}
+ const bridge=group(root,63,0,56);for(const dx of [-1,1]){addMesh(bridge,geo.box,material.fence,dx*1.5,.55,0,.13,1.1,2.8);addMesh(bridge,geo.box,material.fence,dx*1.5,1.07,0,.14,.15,3.2)}
+ const band=group(root,POINTS.bracelet.x,POINTS.bracelet.y,POINTS.bracelet.z);const ring=addMesh(band,new T.TorusGeometry(.27,.07,6,12),material.toy,0,0,0);ring.rotation.x=.5;addMesh(band,geo.box,material.brass,.21,.08,0,.13,.14,.1);evidenceMeshes.bracelet=band;
+}
+function createFinal(){const root=stageWorld[3]=group(scene);
+ for(let i=0;i<13;i++){const z=91+i*1.45;const x=i%2?47.3:57.2;const g=group(root,x,0,z);addMesh(g,geo.cylinder,material.dark,0,1.14,0,.28,2.3,.28);addMesh(g,geo.sphere,material.wax,0,2.6,0,.46,.65,.38);for(const d of [-1,1]){const arm=addMesh(g,geo.cylinder,material.dark,d*.5,1.65,0,.12,1.75,.14);arm.rotation.z=d*.54}}
+ const hut=group(root,52.1,0,112.1);addMesh(hut,geo.box,material.fence,0,2.1,2.4,8,4.2,1.6);addMesh(hut,geo.box,material.coat,0,4.2,2.4,8.7,.5,4.8).rotation.z=.05;
+ for(let j=0;j<15;j++)addMesh(hut,geo.box,material.trunk,(j-7)*.53,2.35,1.50,.08,3.1,.1);
+ for(const [side,x] of [['left',-1.65],['right',1.65]]){
+  const frame=group(root,52.1+x,0,110.91);
+  const door=addMesh(frame,geo.box,material.door,0,1.65,0,2.35,3.3,.26);addMesh(frame,geo.sphere,material.brass,side==='left'?.75:-.75,1.5,-.19,.13,.13,.13);
+  addMesh(frame,geo.box,material.metal,0,3.36,0,2.55,.15,.32);doorMeshes.push({side,door});
+ }
+}
+function buildCreature(){creatureRoot=group(scene,-200,0,-200);const shadow=mat(0x0d1110,.94),skin=mat(0x363735,.99),wet=mat(0x695548,.77);
+ const pelvis=group(creatureRoot,0,1.1,0);addMesh(pelvis,geo.cone,shadow,0,1.15,0,.57,2.2,.39).rotation.z=.11;
+ const head=group(pelvis,0,2.47,.05);addMesh(head,geo.sphere,skin,0,0,0,.42,.68,.33);addMesh(head,geo.box,shadow,0,-.2,-.23,.48,.37,.06);
+ for(const d of [-1,1]){addMesh(head,geo.sphere,wet,d*.16,.08,-.29,.079,.052,.04);}
+ const legs=[],arms=[];for(const d of [-1,1]){const leg=group(pelvis,d*.23,.26,0);addMesh(leg,geo.cylinder,shadow,0,-.65,0,.18,1.58,.18);const shin=group(leg,0,-1.34,0);addMesh(shin,geo.cylinder,skin,0,-.42,-.1,.11,1.13,.13);addMesh(shin,geo.box,shadow,0,-.98,-.35,.28,.14,.66);legs.push(leg);
+ const arm=group(pelvis,d*.51,1.66,0);addMesh(arm,geo.cylinder,skin,d*.03,-.9,0,.13,1.88,.15);const palm=group(arm,d*.02,-1.8,.08);addMesh(palm,geo.box,wet,0,-.26,0,.17,.51,.19);for(let k=0;k<4;k++)addMesh(palm,geo.cylinder,skin,(k-1.5)*.055,-.59,-.07,.017,.54,.02);arms.push(arm)}
+ creature={root:creatureRoot,pelvis,head,legs,arms};creatureRoot.visible=false;
+ glimpse=creatureRoot.clone(true);glimpse.position.set(-100,0,-100);scene.add(glimpse);glimpse.visible=false;
+}
+async function initScene(){
+ try{
+  T=await import('./vendor/three.module.js');
+  renderer=new T.WebGLRenderer({canvas:$('worldCanvas'),antialias:!MOBILE,alpha:false,powerPreference:MOBILE?'low-power':'high-performance'});
+  renderer.setClearColor(0x000000,1);renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.75;
+  renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;
+  scene=new T.Scene();scene.background=new T.Color(0x000000);scene.fog=new T.FogExp2(0x000000,.025);
+  camera=new T.PerspectiveCamera(77,innerWidth/innerHeight,.055,65);camera.rotation.order='YXZ';
+  material.ground=mat(0x1f271f);material.path=mat(0x474239);material.wet=mat(0x292c2b);material.trunk=mat(0x423428);material.needles=mat(0x26362b);material.bush=mat(0x29372b);material.rock=mat(0x4a5149);material.fence=mat(0x5c4c39);material.toy=mat(0x92774d);material.dark=mat(0x252a29);material.metal=mat(0x535956,.65,.26);material.chain=mat(0x676b65,.65,.1);material.coat=mat(0x393b38);material.coatAlt=mat(0x46443e);material.brass=mat(0x9e8664,.43,.5);material.water=mat(0x252f30,.29,.16);material.wax=mat(0x5b625e);material.door=mat(0x564c42);
+  geo.box=new T.BoxGeometry(1,1,1);geo.sphere=new T.SphereGeometry(1,10,7);geo.cylinder=new T.CylinderGeometry(1,1,1,8);geo.trunk=new T.CylinderGeometry(.45,.65,1,6);geo.cone=new T.ConeGeometry(1,1,7);geo.dodeca=new T.DodecahedronGeometry(1,0);
+  flashlight=new T.SpotLight(0xffe7bb,MOBILE?270:310,27,.51,.48,2);flashlight.castShadow=true;flashlight.shadow.mapSize.set(MOBILE?512:1024,MOBILE?512:1024);flashlight.shadow.camera.near=.25;flashlight.shadow.camera.far=27;flashlight.shadow.bias=-.00026;flashlight.shadow.normalBias=.021;flashlight.shadow.focus=1;scene.add(flashlight);flashTarget=new T.Object3D();scene.add(flashTarget);flashlight.target=flashTarget;
+  createForest();createPark();createMarsh();createFinal();buildCreature();buildWatchers();setRendererSize();sceneReady=true;setChapterVisibility();updateCamera(0);
+ }catch(e){loadingError=String(e?.message||e);setHidden('introScreen',true);setHidden('errorScreen',false);$('errorDescription').textContent='WebGL veya 3B motor yüklenemedi: '+loadingError;console.error('SON IŞIK V24',e)}
+}
+const AUDIO={ctx:null,master:null,windSource:null,windGain:null,noise:null};
+function initAudio(){if(!soundEnabled)return;if(AUDIO.ctx){AUDIO.ctx.resume?.();return;}try{const ctx=new(window.AudioContext||window.webkitAudioContext)(),master=ctx.createGain();master.gain.value=.19;master.connect(ctx.destination);
+ const buffer=ctx.createBuffer(1,ctx.sampleRate*.8|0,ctx.sampleRate),samples=buffer.getChannelData(0);let seed=241231;for(let i=0;i<samples.length;i++){seed=(Math.imul(seed,1664525)+1013904223)>>>0;samples[i]=(seed/4294967296*2-1)*.55}
+ AUDIO.ctx=ctx;AUDIO.master=master;AUDIO.noise=buffer;
+ const src=ctx.createBufferSource(),low=ctx.createBiquadFilter(),gain=ctx.createGain();src.buffer=buffer;src.loop=true;low.type='lowpass';low.frequency.value=185;gain.gain.value=.075;src.connect(low);low.connect(gain);gain.connect(master);src.start();AUDIO.windSource=src;AUDIO.windGain=gain;
+}catch(e){console.warn('Audio not supported',e)}}
+function spatial(x,z){const h=G.hero;const dx=x-h.x,dz=z-h.z,r=right(h.yaw);return clamp((dx*r.x+dz*r.z)/Math.max(.001,Math.hypot(dx,dz)),-1,1)}
+function spatialNode(ctx,x,z){try{const p=ctx.createPanner();p.panningModel="HRTF";p.distanceModel="linear";p.refDistance=2;p.maxDistance=38;p.rolloffFactor=.85;if(p.positionX){p.positionX.value=x;p.positionY.value=1.55;p.positionZ.value=z;}else p.setPosition(x,1.55,z);return p;}catch{const p=ctx.createStereoPanner?ctx.createStereoPanner():ctx.createGain();if(p.pan)p.pan.value=spatial(x,z);return p;}}
+function syncAudioListener(){const ctx=AUDIO.ctx;if(!ctx)return;const l=ctx.listener,h=G.hero,f=forward();try{if(l.positionX){l.positionX.value=h.x;l.positionY.value=1.72;l.positionZ.value=h.z;l.forwardX.value=f.x;l.forwardY.value=0;l.forwardZ.value=f.z;l.upX.value=0;l.upY.value=1;l.upZ.value=0;}else{l.setPosition(h.x,1.72,h.z);l.setOrientation(f.x,0,f.z,0,1,0);}}catch{}}
+function sound(type,x=G.hero.x,z=G.hero.z,amplitude=1){if(!soundEnabled||!AUDIO.ctx)return;
+ const ctx=AUDIO.ctx,now=ctx.currentTime,pan=spatialNode(ctx,x,z),gain=ctx.createGain(),range=distance({x,z},G.hero);
+ if(pan.pan)pan.pan.value=spatial(x,z);const vol=amplitude*Math.max(.09,1-range/32);gain.gain.setValueAtTime(.0001,now);
+ let peak=.08;switch(type){case'foot':peak=.055;break;case'wood':peak=.18;break;case'whisper':peak=.13;break;case'clang':peak=.14;break;case'heartbeat':peak=.11;break;case'scream':peak=.38;break;case'static':peak=.15;break;case'knock':peak=.20;break;default:peak=.10}
+ gain.gain.exponentialRampToValueAtTime(Math.max(.0002,peak*vol),now+.014);
+ const dur=type==='scream'?1.65:type==='whisper'?.95:type==='clang'?.95:type==='heartbeat'?.39:type==='static'?.55:.33;
+ gain.gain.exponentialRampToValueAtTime(.0001,now+dur);
+ gain.connect(pan);pan.connect(AUDIO.master);
+ const filter=ctx.createBiquadFilter();filter.type=type==='scream'?'bandpass':type==='foot'?'lowpass':'bandpass';filter.frequency.value=type==='scream'?1100:type==='foot'?420:type==='static'?2000:620;filter.Q.value=type==='scream'?.8:1;
+ const src=ctx.createBufferSource();src.buffer=AUDIO.noise;src.connect(filter);filter.connect(gain);src.start(now);src.stop(now+Math.min(dur,.78));
+ if(['clang','knock','heartbeat','scream'].includes(type)){const osc=ctx.createOscillator();osc.type=type==='scream'?'sawtooth':'sine';const start=type==='scream'?480:type==='clang'?850:type==='knock'?105:56;osc.frequency.setValueAtTime(start,now);osc.frequency.exponentialRampToValueAtTime(type==='scream'?155:type==='clang'?180:type==='knock'?53:40,now+dur*.75);osc.connect(gain);osc.start(now);osc.stop(now+dur+.03);}
+}
+function rhythm(real,x,z){const tim=real?[0,.22,.82]:[0,.35,.70];for(const delta of tim){if(!AUDIO.ctx||!soundEnabled)continue;const ctx=AUDIO.ctx,when=ctx.currentTime+delta,out=ctx.createGain(),osc=ctx.createOscillator(),p=spatialNode(ctx,x,z);osc.type='sine';osc.frequency.value=real?86:101;out.gain.setValueAtTime(.0001,when);out.gain.exponentialRampToValueAtTime(.12,when+.012);out.gain.exponentialRampToValueAtTime(.0001,when+.17);if(p.pan)p.pan.value=spatial(x,z);osc.connect(out);out.connect(p);p.connect(AUDIO.master);osc.start(when);osc.stop(when+.18);}}
+function caption(text,secs=3.8){G.captionText=text;G.captionUntil=G.elapsed+secs;$('caption').textContent=text;$('caption').classList.add('show')}
+function reportError(e){console.error(e);G.mode='error';setHidden('hud',true);hideScreens();setHidden('errorScreen',false);$('errorDescription').textContent='Oyun çalıştırılırken hata oluştu: '+(e?.message||String(e));}
+function hideScreens(){for(const id of ['introScreen','chapterScreen','branchScreen','pauseScreen','deathScreen','winScreen','errorScreen'])setHidden(id,true)}
+function showOverlay(id,mode){G.mode=mode;hideScreens();setHidden(id,false);setHidden('hud',mode==='menu'||mode==='error');if(document.pointerLockElement)document.exitPointerLock?.();resetTouch();}
+function resetTouch(){stick.x=stick.y=0;joystickPointer=null;lookPointer=null;$('stickCap').style.transform='translate(0px,0px)'}
+function setChapterVisibility(){if(!sceneReady)return;if(watchOwner!==G||watchChapter!==G.chapter)resetWatch();for(const n of [1,2,3])stageWorld[n].visible=n===G.chapter;const suit=G.chapter>=2; // hide off-chapter evidence and props
+ // Shoe remains a park-world item; chapter 2 has wristband.
+ batteryMeshes.forEach((m,i)=>m.visible=!G.taken.includes(i)&&(i===0?G.chapter===1:i===1?G.chapter===2:G.chapter===3));
+}
+function serialize(){return{version:24,chapter:G.chapter,stage:G.stage,route:G.route,hero:{...G.hero},energy:G.energy,torch:G.torch,spares:G.spares,taken:[...G.taken],elapsed:G.elapsed,encountersSeen:[...G.encountersSeen],firstKnock:G.firstKnock,wrongDoor:G.wrongDoor,dead:G.mode==='dead'};}
+function save(){if(!['playing','chapter','choice','paused','dead'].includes(G.mode))return;try{localStorage.setItem(SAVE_KEY,JSON.stringify(serialize()))}catch(e){console.warn('Save failed',e)}}
+function readSave(){const value=safeJSON(storageRead(SAVE_KEY));return value?.version===24?value:null}
+function readPrior(){const s=safeJSON(storageRead(PREVIOUS_KEY))||safeJSON(storageRead(OLDER_KEY));return s&&typeof s==='object'&&Number.isFinite(s.stage)?s:null}
+function checkpoint(chapter){if(chapter===2)return G.route==='river'?{x:63,z:56}:{x:37,z:57};return CHAPTER_CHECKPOINTS[chapter]||START}
+function applySave(s,isPrevious=false){G=initial();G.chapter=clamp(Number(s.chapter)||1,1,3);G.stage=clamp(Number(s.stage)||0,0,3);G.route=s.route==='bell'||s.route==='river'?s.route:null;
+ if(G.chapter===1&&G.stage>1)G.stage=1;if(G.chapter>=2&&!G.route)G.route='bell';if(G.chapter===2)G.stage=2;if(G.chapter===3)G.stage=3;
+ G.spares=clamp(Number(s.spares)||0,0,4);G.energy=clamp(Number(s.energy)||75,0,100);G.torch=s.torch!==false;if(G.energy<=0)G.energy=65;
+ G.taken=Array.isArray(s.taken)?s.taken.filter(i=>[0,1,2].includes(i)):Array.isArray(s.batteryTaken)?s.batteryTaken.filter(i=>[0,1,2].includes(i)):[];
+ if(s.dead){G.energy=Math.max(G.energy,78);G.spares=Math.max(1,G.spares)}
+ G.elapsed=Math.max(0,Number(s.elapsed)||0);G.encountersSeen=Array.isArray(s.encountersSeen)?s.encountersSeen.filter(x=>typeof x==='string'):[];
+ G.firstKnock=!!s.firstKnock;G.wrongDoor=!!s.wrongDoor;
+ const cp=checkpoint(G.chapter);const pos=s.hero&&Number.isFinite(s.hero.x)&&Number.isFinite(s.hero.z)?s.hero:cp;
+ G.hero.x=clamp(pos.x,WORLD.minX,WORLD.maxX);G.hero.z=clamp(pos.z,WORLD.minZ,WORLD.maxZ);
+ G.hero.yaw=Number.isFinite(pos.yaw)?pos.yaw:Number.isFinite(pos.aim)?1.5*Math.PI-pos.aim:Math.PI;
+ G.hero.pitch=Number.isFinite(pos.pitch)?clamp(pos.pitch,-.85,.82):-.08;
+ // Legacy isometric saves can have position outside the new FPS playable corridor.
+ if(s.dead||!canWalk(G.hero.x,G.hero.z)){G.hero.x=cp.x;G.hero.z=cp.z;G.hero.yaw=Math.PI;}
+ G.threat.next=G.elapsed+22;G.faultAt=G.elapsed+28;G.omenAt=G.elapsed+16;
+ if(isPrevious){G.energy=Math.max(G.energy,58);caption('Eski ilerlemen korundu. Birinci şahıs kontrollerine alışmak için kısa süre güvendesin.',6)}
+ setChapterVisibility();updateObjective();updateCamera(0);refreshHUD();}
+function freshGame(){G=initial();if(sceneReady){setChapterVisibility();updateCamera(0)};try{localStorage.removeItem(SAVE_KEY)}catch(e){}G.mode='playing';G.threat.next=39;caption('Elif’in sesini dinle. Ayakkabısını oyun parkında aramalısın.',5.7);updateObjective();refreshHUD();save();}
+function startGame(type){if(!sceneReady){if(loadingError){showOverlay('errorScreen','error')}return}
+ initAudio();hideScreens();setHidden('hud',false);if(type==='resume'&&readSave()){applySave(readSave())}else if(type==='import'&&readPrior()){applySave(readPrior(),true)}else{freshGame()}G.mode='playing';setChapterVisibility();if(type!=='fresh'){caption('Etrafına bak. Feneri sağ parmağınla veya fareyle yönlendir.',4)};
+ lastFrame=performance.now();refreshHUD();}
+function updateObjective(){const objectives=[['KAYIP AYAKKABI','Oyun parkındaki küçük ayakkabıyı ara.'],['YOL AYRIMI','Kavşağa ulaş. Çanları ya da dereyi seç.'],['ELİF’İN BİLEKLİĞİ','Seçtiğin patikayı izleyerek çanların sonuna git.'],['İKİ KAPI','Fenerini söndür, kapıların seslerini dinle.']];const [title,desc]=objectives[G.stage];$('objectiveText').textContent=title;$('objectiveHint').textContent=desc;$('chapterLabel').textContent='BÖLÜM '+['','I','II','III'][G.chapter]+' / '+chapterNames[G.chapter]}
+function refreshHUD(){const val=Math.ceil(G.energy);$('batteryNumber').textContent='%'+val;$('batteryFill').style.width=clamp(val,0,100)+'%';$('spareCount').textContent=String(G.spares).padStart(2,'0');$('batteryButton').disabled=!isPlaying()||G.spares<=0||G.energy>=97;$('torchButton').querySelector('span:last-child').textContent=G.torch?'FENER':'FENER ×';$('batteryPanel').classList.toggle('low',G.energy<=24)}
+function chapterStart(n){G.chapter=n;G.stage=n===2?2:3;G.chapterTime=0;G.threat.mode='idle';G.threat.next=G.elapsed+24;G.faultAt=G.elapsed+(n===3?18:33);G.omenAt=G.elapsed+12;G.omenActive=false;G.hero={...G.hero,...checkpoint(n),yaw:Math.PI,pitch:-.08};G.spares=Math.max(1,G.spares);G.energy=Math.max(55,G.energy);G.encountersSeen=[];G.torch=true;G.faultUntil=0;creatureRoot.visible=false;glimpse.visible=false;setChapterVisibility();updateObjective();save();
+ const data=n===2?['BÖLÜM II','BOĞULMUŞ KORULUK','Ağaçlardan sarkan kıyafetlerin hiçbiri yerde iz bırakmıyor. Takip ettiğin patikada başka biri daha yürüyor.']:['BÖLÜM III','SON GEÇİT','Ormanın en sessiz yeri. Kulübenin iki kapısı var ve içeride birisi Elif’in bildiği ritmi öğrenmeye çalışıyor.'];
+ $('chapterKicker').textContent=data[0];$('chapterTitle').textContent=data[1];$('chapterDescription').textContent=data[2];showOverlay('chapterScreen','chapter');}
+function selectPath(route){G.route=route;chapterStart(2);}
+function openBranch(){showOverlay('branchScreen','choice')}
+function finishGame(){hideWatchers();G.mode='won';G.torch=false;G.threat.mode='idle';creatureRoot.visible=false;glimpse.visible=false;setHidden('hud',true);hideScreens();setHidden('winScreen',false);try{localStorage.removeItem(SAVE_KEY)}catch(e){}}
+function renderDeathEyes(){const node=$('deathEyes');if(node.children.length)return;let html='';for(let i=0;i<95;i++){const x=(seeded()*104)-2,y=(seeded()*105)-2,w=12+seeded()*60,r=seeded()*90-45,blur=seeded()<.33?'2px':'.3px';html+=`<span class="smallEye" style="left:${x}%;top:${y}%;--w:${w}px;--r:${r}deg;--blur:${blur};--delay:${(-seeded()*3).toFixed(2)}s"></span>`;}node.innerHTML=html;}
+function die(reason='battery'){if(G.mode!=='playing')return;hideWatchers();G.mode='dead';G.torch=false;flashlight.intensity=0;creatureRoot.visible=false;glimpse.visible=false;renderDeathEyes();const desc={battery:['IŞIK SÖNDÜ.','Ardından gelen çığlık karanlığın içinden değil, tam arkandan yükseldi.'],hunter:['ARKANDA BİRİ VARDI.','Nefes alışın durdu. Ama hemen yanında bir başkası nefes almaya devam ediyor.'],door:['YANLIŞ SES.','Kapının arkasındaki şey, bildiğin bütün sesleri taklit edebiliyor.']};const d=desc[reason]||desc.hunter;$('deathTitle').textContent=d[0];$('deathDescription').textContent=d[1];hideScreens();setHidden('deathScreen',false);setHidden('hud',true);sound('scream',G.hero.x-forward().x*4,G.hero.z-forward().z*4,.85);save();}
+function retryChapter(){const cp=checkpoint(G.chapter),chapter=G.chapter,stage=G.chapter===1?0:G.chapter===2?2:3,route=G.route,taken=[...G.taken];G=initial();G.chapter=chapter;G.stage=stage;G.route=route;G.hero.x=cp.x;G.hero.z=cp.z;G.spares=chapter===1?2:1;G.energy=chapter===3?80:89;G.taken=taken;G.threat.next=44;setChapterVisibility();G.mode='playing';setHidden('deathScreen',true);setHidden('hud',false);updateObjective();updateCamera(0);caption('Bu kez daha yavaş ilerle. Fenerin sonsuza kadar dayanmayacak.',4.5);save();}
+function mainMenu(){hideWatchers();G.mode='menu';creatureRoot&&(creatureRoot.visible=false);glimpse&&(glimpse.visible=false);setHidden('hud',true);hideScreens();setHidden('introScreen',false);$('resumeButton').classList.toggle('hidden',!readSave());$('importButton').classList.toggle('hidden',!readPrior());refreshHUD();}
+function pauseGame(){if(!isPlaying())return;G.mode='paused';keys={};showOverlay('pauseScreen','paused');save()}
+function unpause(){if(G.mode==='paused'||G.mode==='chapter'){hideScreens();setHidden('hud',false);G.mode='playing';lastFrame=performance.now();initAudio();save()}}
+function treeBlocks(a,b,radius=.12){const vx=b.x-a.x,vz=b.z-a.z,l=vx*vx+vz*vz;if(l<.0001)return false;for(const o of obstacles){const u=clamp(((o.x-a.x)*vx+(o.z-a.z)*vz)/l,0,1),px=a.x+vx*u,pz=a.z+vz*u;if(u>.04&&u<.96&&Math.hypot(o.x-px,o.z-pz)<o.radius+radius)return true}return false}
+function inView(p,allowDark=false){const d=Math.hypot(p.x-G.hero.x,p.z-G.hero.z);if(d>5.3)return false;if(!allowDark&&!G.torch)return false;if(!faceTarget(p))return false;return !treeBlocks(G.hero,p,.07)}
+function findTarget(){if(!isPlaying())return null;const h=G.hero;let targets=[];
+ if(G.stage===0)targets=[{id:'shoe',p:POINTS.shoe,range:4.4,label:'AYAKKABIYI İNCELE'}];
+ if(G.stage===1)targets=[{id:'junction',p:POINTS.junction,range:5.2,label:'PATİKAYI SEÇ'}];
+ if(G.stage===2)targets=[{id:'bracelet',p:POINTS.bracelet,range:4.5,label:'BİLEKLİĞİ İNCELE'}];
+ if(G.stage===3)targets=[{id:'left',p:POINTS.left,range:4.4,label:'SOL KAPIYI AÇ'},{id:'right',p:POINTS.right,range:4.4,label:'SAĞ KAPIYI AÇ'}];
+ for(let i=0;i<batteryPoints.length;i++){if(G.taken.includes(i)||G.spares>=4||((i===0&&G.chapter!==1)||(i===1&&G.chapter!==2)||(i===2&&G.chapter!==3)))continue;targets.push({id:'battery:'+i,p:batteryPoints[i],range:3.2,label:'YEDEK PİLİ AL'});}
+ let best=null,score=-Infinity;for(const t of targets){const d=distance(h,t.p);if(d>t.range||(!G.torch)||(G.faultUntil>G.elapsed)||treeBlocks(h,t.p))continue;
+ const a=v3(t.p.x,t.p.y,t.p.z).sub(camera.position),len=a.length();if(len<.1)continue;const dot=cameraForward().dot(a.divideScalar(len));if(dot<Math.cos(Math.min(beamAngle()+.025,d>3?.37:.46)))continue;
+ const sc=dot-d*.015;if(sc>score){score=sc;best=t;}}
+ return best;
+}
+function updateFocus(){const target=findTarget();$('crosshair').classList.toggle('focus',!!target);$('actionButton').disabled=!target;$('focusTag').classList.toggle('on',!!target);$('focusTag').textContent=target?.id.startsWith('battery:')?'YEDEK PİL':target?.id==='shoe'?'ELİF’İN AYAKKABISI':target?.id==='bracelet'?'ELİF’İN BİLEKLİĞİ':target?.id==='junction'?'YOL AYRIMI':target?'KULÜBE KAPISI':'';$('actionText').textContent=target?.label||'İNCELE';return target}
+function interaction(){if(!isPlaying())return;const target=findTarget();if(!target){caption('Feneri bir nesneye çevirip yeterince yaklaşmalısın.',2.8);return;}
+ const id=target.id;
+ if(id.startsWith('battery:')){const i=Number(id.split(':')[1]);if(!G.taken.includes(i)&&G.spares<4){G.taken.push(i);G.spares++;sound('clang',target.p.x,target.p.z,.7);caption('Bir yedek pil buldun. Karanlıkta çalışıyor olması yine de şans.',3.4);setChapterVisibility();save()}return;}
+ if(id==='shoe'){G.stage=1;G.firstKnock=true;rhythm(true,44,30);caption('Küçük ayakkabının içinde bir not: “Baba, iki kez vurup bekle. Sonra bir kez daha.”',6.3);G.threat.next=G.elapsed+25;G.omenAt=G.elapsed+13;updateObjective();save();return;}
+ if(id==='junction'){openBranch();return;}
+ if(id==='bracelet'){caption('Bilekliğin içinde Elif’in adı var. Kulübeye giden tek yol kaldı.',5.5);sound('wood',POINTS.bracelet.x,POINTS.bracelet.z);chapterStart(3);return;}
+ if(id==='left'||id==='right'){
+  if(G.lastListen<G.elapsed-85||!G.waitForDoor){caption('Kapıdan gelen sesi önce dinle. Fenerini kapat, DİNLE’ye dokun.',3.8);return;}
+  if(id===G.waitForDoor){caption('Vuruşları duydun. Hangisinin Elif’e ait olduğunu hatırla.',2.5)}
+  const correct=G.route==='bell'?'left':'right';if(id===correct){sound('knock',target.p.x,target.p.z,1);finishGame();}else{G.wrongDoor=true;die('door');}return;
+ }
+}
+function toggleTorch(){if(!isPlaying())return;if(G.energy<=0){die('battery');return;}G.torch=!G.torch;G.noise+=G.torch?.16:0;refreshHUD();sound('wood',G.hero.x,G.hero.z,.38)}
+function replaceBattery(){if(!isPlaying()||G.spares<=0||G.energy>=97)return;G.spares--;G.energy=100;G.torch=true;G.faultUntil=0;G.noise+=1.7;G.threat.next=Math.min(G.threat.next,G.elapsed+11);sound('clang',G.hero.x,G.hero.z,.65);caption('Yeni pil takıldı. Metal sesi ormanda yankılandı.',2.6);refreshHUD();save()}
+function listen(){if(!isPlaying())return;
+ G.torch=false;G.lastListen=G.elapsed;G.noise=Math.max(0,G.noise-.75);refreshHUD();
+ const h=G.hero;if(G.moved){caption('Önce dur. Adımların duyduğun sesleri bastırıyor.',3);return;}
+ if(G.stage===3&&h.z>99){const a=POINTS.left,b=POINTS.right;const vec=cameraForward();const dotA=vec.dot(v3(a.x,a.y,a.z).sub(camera.position).normalize());const dotB=vec.dot(v3(b.x,b.y,b.z).sub(camera.position).normalize());const side=dotA>dotB?'left':'right';const correct=G.route==='bell'?'left':'right';G.waitForDoor=side;const real=side===correct;rhythm(real,side==='left'?a.x:b.x,111);
+ caption(real?'Kapıdan iki kısa vuruş, sonra gecikmeli bir üçüncüsü geliyor. Elif’in ritmi.':'Üç vuruş birbirine eşit aralıkta. Sanki birisi ezberlediği sesi çalışıyor.',5.4);return;
+ }
+ if(G.stage===0){rhythm(true,POINTS.shoe.x,POINTS.shoe.z);caption('İleri tarafta ahşap üzerinde üç vuruş: iki kısa, bir gecikmeli. Oyun parkından geliyor.',4.9);return;}
+ if(G.stage===1){sound('clang',POINTS.bell.x,POINTS.bell.z,.8);sound('wood',POINTS.river.x,POINTS.river.z,.4);caption('Bir yanda paslı çanların sesi, diğer yanda akan su. Yol ayrımı çok yakın.',4.3);return;}
+ if(G.stage===2){rhythm(false,56,83);caption('Ön taraftan üç eşit vuruş duyuluyor. Bu, Elif’in öğrettiği ritim değil.',4.6);return;}
+ caption('Karanlık cevap vermiyor. Ama en azından şimdilik yalnızsın.',3.2);
+}
+function updateCamera(dt){if(!camera||!flashlight)return;const h=G.hero;const t=G.elapsed;const bob=G.moved&&bobEnabled?Math.sin(stepAccumulator*3.1)*.026:0;const sway=G.moved&&bobEnabled?Math.cos(stepAccumulator*1.5)*.005:0;
+ camera.position.set(h.x,1.72+bob,h.z);camera.rotation.set(h.pitch+sway,h.yaw,0,'YXZ');
+ const forwardCam=cameraForward(),rightVec=new T.Vector3(1,0,0).applyQuaternion(camera.quaternion);flashlight.position.copy(camera.position).addScaledVector(rightVec,.105).addScaledVector(forwardCam,.12);flashlight.position.y-=.115;
+ flashTarget.position.copy(flashlight.position).addScaledVector(forwardCam,18);flashlight.target.updateMatrixWorld();
+ const flashOn=G.mode==='playing'&&G.torch&&G.energy>0&&G.faultUntil<=G.elapsed;flashlight.intensity=flashOn?(MOBILE?280:335)*clamp(G.energy/65,.7,1):0;
+}
+function triggerGlitch(duration=1.1){if(G.mode!=='playing'||!G.torch||G.energy<=6)return;G.faultUntil=G.elapsed+duration;caption('Fenerin içinden bir çıtırtı yükseliyor. Işık kesildi.',2.6);sound('static',G.hero.x,G.hero.z,1.2)}
+function updateThreat(dt){const e=G.threat,h=G.hero;if(!isPlaying())return;
+ const d=Math.hypot(e.x-h.x,e.z-h.z),lightTarget={x:e.x,y:2.4,z:e.z};
+ if(e.mode==='idle'){
+  if(G.stage>=1&&G.elapsed>=e.next&&!G.omenActive&&!G.watch?.figure){e.mode='warning';e.warningUntil=G.elapsed+3.8;e.tx=h.x;e.tz=h.z;
+   const fv=forward();const rear={x:h.x-fv.x*6,z:h.z-fv.z*6};sound('wood',rear.x,rear.z,.9);caption('Arkandan kuru bir dal kırıldı. Bir adım daha atmadı.',3.3);}
+  return;
+ }
+ if(e.mode==='warning'){
+  if(G.elapsed>e.warningUntil){const fv=forward(),rv=right();let ex=h.x-fv.x*9+rv.x*3,ez=h.z-fv.z*9+rv.z*3;
+   if(!canWalk(ex,ez)){ex=h.x-fv.x*6;ez=h.z-fv.z*6;}if(!canWalk(ex,ez)){ex=h.x+rv.x*5;ez=h.z+rv.z*5;}
+   e.x=ex;e.z=ez;e.tx=h.x;e.tz=h.z;e.mode='investigate';e.time=14;e.searchTime=0;e.stare=0;e.alert=0;creatureRoot.visible=true;}
+  return;
+ }
+ if(e.mode==='repelled'){e.time-=dt;creatureRoot.visible=false;if(e.time<=0){e.mode='idle';e.next=G.elapsed+rand(25,43)}return;}
+ e.time-=dt;const distPlayer=distance(e,h),inBeam=G.torch&&G.faultUntil<=G.elapsed&&inLight(lightTarget,19)&&!treeBlocks(h,e,.19),closeVisible=distPlayer<7&&!treeBlocks(h,e,.13);
+ const movingSeen=closeVisible&&G.moved&&distPlayer<10;const loud=G.noise>.65&&distPlayer<16;
+ if(inBeam){e.stare+=dt;G.lookedAtMonster=true;if(e.stare>.84){sound('scream',e.x,e.z,.36);caption('Işığın içinde durdu. Sonra sessizce geri çekildi.',3.5);e.mode='repelled';e.time=4.2;G.noise=Math.max(0,G.noise-.6);save();return;}}
+ else e.stare=Math.max(0,e.stare-dt*.85);
+ if(movingSeen||loud){e.mode='hunt';e.tx=h.x;e.tz=h.z;e.alert=2.8;}
+ if(e.mode==='hunt'){e.alert-=dt;if(e.alert<=0&&!closeVisible){e.mode='search';e.searchTime=5.8}}
+ if(e.mode==='investigate'&&distance(e,{x:e.tx,z:e.tz})<1.5){e.mode='search';e.searchTime=6.5}
+ if(e.mode==='search'){e.searchTime-=dt;if(e.searchTime<=0){e.mode='repelled';e.time=2;return;}}
+ const goal=e.mode==='hunt'?{x:e.tx,z:e.tz}:e.mode==='search'?{x:e.tx+Math.sin(G.elapsed*.85)*1.8,z:e.tz+Math.cos(G.elapsed*.75)*1.8}:{x:e.tx,z:e.tz};
+ const moveSpeed=e.mode==='hunt'?1.96:e.mode==='search'?.67:1.05;const dx=goal.x-e.x,dz=goal.z-e.z,l=Math.hypot(dx,dz);
+ if(l>.2){const nx=e.x+dx/l*moveSpeed*dt,nz=e.z+dz/l*moveSpeed*dt;if(canWalk(nx,nz)){e.x=nx;e.z=nz}else{e.x+=dx/l*moveSpeed*dt*.2;e.z+=dz/l*moveSpeed*dt*.2;}}
+ creatureRoot.position.set(e.x,0,e.z);creatureRoot.rotation.y=Math.atan2(h.x-e.x,h.z-e.z)+Math.PI;creatureRoot.visible=true;
+ const phase=G.elapsed*5,legs=creature.legs,arms=creature.arms;creature.pelvis.rotation.z=Math.sin(phase*.65)*.075;creature.head.rotation.z=Math.sin(phase*.24)*.22;
+ for(let i=0;i<2;i++){legs[i].rotation.x=Math.sin(phase+i*Math.PI)*.23;arms[i].rotation.x=Math.sin(phase+i*Math.PI+.4)*.32;arms[i].rotation.z=(i?1:-1)*(.13+Math.sin(phase*.36)*.07)}
+ if(distPlayer<2.05&&closeVisible){die('hunter');return;}
+ if(e.time<=0){e.mode='repelled';e.time=2.5}
+}
+function updateOmen(dt){if(!isPlaying())return;const should=G.stage>=1&&G.elapsed>=G.omenAt&&!G.encountersSeen.includes('omen'+G.chapter)&&!G.omenActive&&!G.watch?.figure&&!['warning','hunt','search','investigate'].includes(G.threat.mode);
+ if(should&&G.torch){const f=forward(),r=right();let x=G.hero.x+f.x*8+r.x*2,z=G.hero.z+f.z*8+r.z*2;if(!canWalk(x,z)){x=G.hero.x+f.x*5;z=G.hero.z+f.z*5;}glimpse.position.set(x,0,z);glimpse.visible=true;G.omenActive=true;G.omenUntil=G.elapsed+1.35;G.encountersSeen.push('omen'+G.chapter);sound('whisper',x,z,.5);caption('İleriden kısa bir kumaş hışırtısı geldi.',3.2)}
+ if(G.omenActive){glimpse.rotation.y=G.hero.yaw;glimpse.visible=G.torch&&G.faultUntil<=G.elapsed;if(G.elapsed>=G.omenUntil){G.omenActive=false;glimpse.visible=false;save()}}
+}
+// V24: diegetic, depth-tested eyes and a separate non-emissive observer.
+const WATCH_LIMIT=5;
+let watcherRig=null,eyePool=[],watchOwner=null,watchChapter=0;
+function watchState(){return {pairs:[],nextEyes:6,nextFigure:12,figure:null,lastFault:0,quietUntil:0,events:0};}
+function buildWatchers(){
+ for(let i=0;i<WATCH_LIMIT;i++){
+  const root=group(scene);root.visible=false;
+  const iris=new T.MeshBasicMaterial({color:0xb7ab78,transparent:true,opacity:0,toneMapped:false,depthWrite:false});
+  const pupil=new T.MeshBasicMaterial({color:0x050504,transparent:true,opacity:0,toneMapped:false,depthWrite:false});
+  const lids=[];
+  for(const side of [-1,1]){
+   const lid=group(root,side*.115,0,0);
+   addMesh(lid,geo.sphere,iris,0,0,0,.074,.035,.018,false);
+   addMesh(lid,geo.sphere,pupil,0,0,-.017,.024,.031,.008,false);lids.push(lid);
+  }
+  eyePool.push({root,iris,pupil,lids});
+ }
+ const root=group(scene);root.visible=false;
+ const cloth=mat(0x292824,.98),skin=mat(0x7d7970,.91),voidMat=mat(0x090a09,.99);
+ const torso=group(root,0,1.22,0);
+ addMesh(torso,geo.cylinder,cloth,0,.48,0,.30,1.16,.22);
+ addMesh(torso,geo.cone,cloth,0,.08,0,.46,1.08,.29).rotation.z=.09;
+ const neck=group(torso,0,1.09,0);addMesh(neck,geo.cylinder,skin,0,.19,0,.073,.38,.075);
+ const head=group(neck,.04,.54,0);addMesh(head,geo.sphere,skin,0,0,0,.19,.33,.16);
+ for(const d of [-1,1])addMesh(head,geo.sphere,voidMat,d*.077,.055,-.14,.049,.058,.038);
+ addMesh(head,geo.sphere,voidMat,0,-.14,-.14,.041,.10,.026);
+ const arms=[],legs=[];
+ for(const d of [-1,1]){
+  const arm=group(torso,d*.31,.88,0);addMesh(arm,geo.cylinder,cloth,0,-.37,0,.085,.78,.082);
+  const fore=group(arm,0,-.74,0);addMesh(fore,geo.cylinder,skin,0,-.35,0,.065,.74,.06);addMesh(fore,geo.sphere,skin,0,-.79,0,.073,.18,.069);arms.push(arm);
+  const leg=group(root,d*.145,1.22,0);addMesh(leg,geo.cylinder,cloth,0,-.58,0,.10,1.17,.11);addMesh(leg,geo.box,voidMat,0,-1.17,-.06,.19,.13,.27);legs.push(leg);
+ }
+ watcherRig={root,head,torso,arms,legs};
+}
+function hideWatchers(){for(const e of eyePool)e.root.visible=false;if(watcherRig)watcherRig.root.visible=false;}
+function resetWatch(){hideWatchers();watchOwner=G;watchChapter=G.chapter;G.watch=watchState();G.watch.nextEyes=G.elapsed+rand(5,9);G.watch.nextFigure=G.elapsed+rand(10,15);}
+function watchAngles(p){
+ const dx=p.x-G.hero.x,dz=p.z-G.hero.z,dy=(p.y??1.72)-1.72,d=Math.hypot(dx,dz),f=forward(),r=right();
+ const side=dx*r.x+dz*r.z,front=dx*f.x+dz*f.z;
+ const depth=front*Math.cos(G.hero.pitch)+dy*Math.sin(G.hero.pitch),vertical=dy*Math.cos(G.hero.pitch)-front*Math.sin(G.hero.pitch);
+ const az=Math.atan2(side,depth),el=Math.atan2(vertical,depth);
+ const dot=depth/Math.max(.001,Math.hypot(d,dy));
+ const vf=(camera?.fov||78)*Math.PI/360,hf=Math.atan(Math.tan(vf)*(camera?.aspect||.55));
+ return {d,az,el,dot,onScreen:depth>0&&Math.abs(az)<hf*.95&&Math.abs(el)<vf*.92,half:Math.min(hf,vf)};
+}
+function beamReaches(p){return G.torch&&G.energy>0&&G.faultUntil<=G.elapsed&&watchAngles(p).dot>Math.cos(beamAngle()+.015)&&distance(p,G.hero)<27;}
+function watchZone(p){return p.x>WORLD.minX+1&&p.x<WORLD.maxX-1&&p.z>WORLD.minZ&&p.z<WORLD.maxZ&& (G.chapter===1?p.z<49:G.chapter===2?p.z>48&&p.z<88:p.z>81&&p.z<115);}
+function watchFree(p){return watchZone(p)&&!obstacles.some(o=>distance(p,o)<o.radius+.42)&&!treeBlocks(G.hero,p,.04);}
+function figureFree(p){return watchFree(p)&&canWalk(p.x,p.z);}
+function watchPath(){return G.chapter===1?pathPark:G.chapter===2?(G.route==='river'?pathRiver:pathBell).concat(pathEnd.slice(1,2)):pathEnd;}
+function eyeCandidate(dark){
+ const fov=watchAngles({x:G.hero.x+forward().x,z:G.hero.z+forward().z}).half;
+ for(let i=0;i<52;i++){
+  const side=seeded()<.5?-1:1,angle=G.hero.yaw+side*rand(dark?.08:Math.min(beamAngle()+.025,fov*.88),Math.max(.1,fov*.94));
+  const f=forward(angle),d=rand(dark?5.8:11,25.5),p={x:G.hero.x+f.x*d,z:G.hero.z+f.z*d,y:rand(.9,3.0)};
+  if(watchFree(p)&&watchAngles(p).onScreen&&!beamReaches(p))return p;
+ }
+ // Portrait screens may be narrower than the beam. Use distant eyes beyond its range.
+ if(!dark){for(let i=0;i<25;i++){const f=forward(G.hero.yaw+rand(-fov*.8,fov*.8)),d=rand(28,37),p={x:G.hero.x+f.x*d,z:G.hero.z+f.z*d,y:rand(1.1,2.8)};if(watchFree(p)&&watchAngles(p).onScreen&&!beamReaches(p))return p;}}
+ return null;
+}
+function spawnEyes(w,dark=false){
+ const budget=Math.min(WATCH_LIMIT-w.pairs.length,G.chapter===1?2:G.chapter===2?3:5);if(budget<=0)return 0;
+ let added=0;
+ for(let i=0;i<budget;i++){
+  const p=eyeCandidate(dark);if(!p||w.pairs.some(e=>distance(e,p)<2.2))continue;
+  const slot=eyePool.findIndex((_,j)=>!w.pairs.some(e=>e.slot===j));if(slot<0)break;
+  w.pairs.push({...p,slot,born:G.elapsed,expires:G.elapsed+rand(4.5,9),blinkAt:G.elapsed+rand(.8,2.8),seen:false,litAt:null,threat:G.chapter>1&&seeded()<.30,relocate:G.chapter>1&&seeded()<.35,blink:0});added++;
+ }
+ if(added){const e=w.pairs[w.pairs.length-1];sound('whisper',e.x,e.z,.26);}
+ return added;
+}
+function chooseFigure(){
+ const candidates=[],p=watchPath();
+ for(let j=1;j<p.length;j++)for(let t=.1;t<=1;t+=.10){const a=p[j-1],b=p[j],q={x:lerp(a.x,b.x,t),z:lerp(a.z,b.z,t),y:1.75};candidates.push(q);}
+ for(let i=0;i<24;i++){const f=forward(G.hero.yaw+rand(-.27,.27)),d=rand(11,21);candidates.push({x:G.hero.x+f.x*d,z:G.hero.z+f.z*d,y:1.75});}
+ let best=null,score=Infinity;
+ for(const q of candidates){const a=watchAngles(q);if(a.d<9||a.d>23||!a.onScreen||!beamReaches(q)||!figureFree(q))continue;const value=Math.abs(a.d-17)+Math.abs(a.az)*12+rand(0,3);if(value<score){score=value;best=q;}}
+ return best;
+}
+function spawnFigure(w){const p=chooseFigure();if(!p)return false;const kind=G.chapter===1?'decoy':G.chapter===2?(G.route==='river'?'mimic':'stalker'):'stalker';w.figure={...p,kind,seen:false,looks:0,observed:false,unseen:0,stare:0,steps:0,born:G.elapsed,stepAt:G.elapsed,expires:G.elapsed+22,vanishAt:0};sound('wood',p.x,p.z,.42);return true;}
+function finishFigure(w,repelled){const q=w.figure;if(!q)return;watcherRig.root.visible=false;w.figure=null;w.nextFigure=G.elapsed+rand(22,37);w.quietUntil=G.elapsed+5;w.events++;
+ if(q.kind==='stalker'&&!repelled&&q.looks>=2&&G.stage>=1&&G.threat.mode==='idle')G.threat.next=Math.min(G.threat.next,G.elapsed+9);
+ sound(repelled?'whisper':'foot',q.x,q.z,.38);
+}
+function advanceFigure(q){
+ const dx=G.hero.x-q.x,dz=G.hero.z-q.z,d=Math.hypot(dx,dz);if(d<7.2||q.steps>=2)return false;
+ const step=Math.min(2.7,d-6.4);for(const offset of [0,.45,-.45,.85,-.85]){const a=Math.atan2(dz,dx)+offset,p={x:q.x+Math.cos(a)*step,z:q.z+Math.sin(a)*step};if(figureFree(p)&&!beamReaches({...p,y:1.75})){q.x=p.x;q.z=p.z;q.steps++;sound('foot',p.x,p.z,.65);return true;}}return false;
+}
+function updateWatch(dt){
+ if(!watcherRig||!isPlaying()){hideWatchers();return;}
+ if(watchOwner!==G||watchChapter!==G.chapter||!G.watch)resetWatch();const w=G.watch;
+ const fault=G.faultUntil>G.elapsed,dark=!G.torch||fault,activeHunter=['warning','hunt','search','investigate'].includes(G.threat.mode);
+ if(fault&&!w.lastFault){w.nextEyes=Math.min(w.nextEyes,G.elapsed+.1);if(w.figure&&w.figure.seen){advanceFigure(w.figure);w.figure.stare=0;}}
+ w.lastFault=fault?1:0;
+ if(G.elapsed>=w.nextEyes&&G.elapsed>=w.quietUntil&&!activeHunter&&!G.omenActive){const n=spawnEyes(w,dark);w.nextEyes=G.elapsed+(n?rand(G.energy<30?8:14,G.energy<30?15:25):rand(2,4));}
+ for(let i=w.pairs.length-1;i>=0;i--){const e=w.pairs[i],rig=eyePool[e.slot],lit=beamReaches(e),a=watchAngles(e),blocked=treeBlocks(G.hero,e,.04);
+  if(lit&&e.litAt===null)e.litAt=G.elapsed;
+  if(e.litAt!==null&&e.seen&&e.relocate){e.relocate=false;const near=eyeCandidate(dark);if(near&&distance(near,G.hero)<distance(e,G.hero)-1&&distance(near,e)>3){Object.assign(e,near,{litAt:null,born:G.elapsed+.7,expires:G.elapsed+5,blinkAt:G.elapsed+1.2,seen:false});rig.root.visible=false;sound("foot",near.x,near.z,.25);continue;}}
+  if(e.litAt!==null||G.elapsed>=e.expires||distance(G.hero,e)<3||blocked){rig.root.visible=false;w.pairs.splice(i,1);if(e.seen&&e.threat&&G.stage>=1&&G.threat.mode==='idle')G.threat.next=Math.min(G.threat.next,G.elapsed+14);continue;}
+  rig.root.position.set(e.x,e.y,e.z);rig.root.rotation.y=Math.atan2(G.hero.x-e.x,G.hero.z-e.z)+Math.PI;
+  rig.root.visible=G.elapsed>=e.born&&a.onScreen&&!lit&&!blocked;
+  if(rig.root.visible){e.seen=true;const age=G.elapsed-e.born,fade=Math.min(1,age/.65,(e.expires-G.elapsed)/.85);if(G.elapsed>=e.blinkAt){e.blink=G.elapsed+.18;e.blinkAt=G.elapsed+rand(2.3,5);}const blink=G.elapsed<e.blink;for(const lid of rig.lids)lid.scale.y=blink?.18:1;rig.iris.opacity=Math.max(0,fade)*(a.d>27?.75:.52);rig.pupil.opacity=rig.iris.opacity;}
+ }
+ if(activeHunter||G.omenActive){if(w.figure)finishFigure(w,true);return;}
+ if(!w.figure&&G.elapsed>=w.nextFigure&&G.elapsed>=w.quietUntil&&!dark){if(!spawnFigure(w))w.nextFigure=G.elapsed+2.5;}
+ const q=w.figure;if(!q){watcherRig.root.visible=false;return;}
+ const a=watchAngles(q),visible=beamReaches(q)&&a.onScreen&&!treeBlocks(G.hero,q,.08);
+ watcherRig.root.position.set(q.x,0,q.z);watcherRig.root.rotation.y=Math.atan2(G.hero.x-q.x,G.hero.z-q.z)+Math.PI;
+ const scale=q.kind==='mimic'?.68:q.kind==='stalker'?1.28:1.02;watcherRig.root.scale.setScalar(scale);
+ watcherRig.head.rotation.z=q.kind==='mimic'?.35:.13+(bobEnabled?Math.sin(G.elapsed*.7)*.045:0);
+ watcherRig.torso.rotation.z=bobEnabled?Math.sin(G.elapsed*.46)*.028:0;
+ watcherRig.root.visible=visible;
+ if(visible){if(!q.observed){q.looks++;q.observed=true;q.seen=true;}q.unseen=0;q.stare=a.dot>Math.cos(.20)?q.stare+dt:Math.max(0,q.stare-dt*.65);
+  if(q.stare>1.15||q.looks>=3){finishFigure(w,q.stare>1.15);return;}}
+ else{if(q.observed){q.observed=false;q.unseen=0;}q.unseen+=dt;q.stare=0;
+  if(q.seen&&q.unseen>.75&&G.elapsed-q.stepAt>2.2){q.stepAt=G.elapsed;advanceFigure(q);}}
+ if(G.elapsed>=q.expires||a.d<4.8)finishFigure(w,false);
+}
+
+function updateAmbient(dt){if(!isPlaying())return;
+ if(parkSwing&&stageWorld[1].visible)parkSwing.rotation.x=bobEnabled?Math.sin(G.elapsed*.82)*.08:0;
+ clothPieces.forEach((c,i)=>{if(c&&stageWorld[2].visible)c.rotation.z=bobEnabled?Math.sin(G.elapsed*.55+i)*.12:0});
+ if(G.torch){G.energy=Math.max(0,G.energy-dt*(G.chapter===3?.52:.42)*(G.moved?1.02:1));if(G.energy<=0){G.energy=0;die('battery');return}}
+ if(G.elapsed>=G.faultAt&&G.torch){triggerGlitch(G.chapter===3?1.25:1);G.faultAt=G.elapsed+rand(G.chapter===3?21:34,G.chapter===3?33:52)}
+ $('faultCurtain').classList.toggle('on',G.faultUntil>G.elapsed);
+ const threatDist=['hunt','search','investigate'].includes(G.threat.mode)?distance(G.threat,G.hero):Infinity;
+ $('breatheVeil').style.opacity=threatDist<13?String(clamp((13-threatDist)/12,.0,.75)):'0';
+ if(G.energy<=25&&G.energy>0&&!G.lowWarn){G.lowWarn=true;caption('Pil azaldı. Bir yedek bulmak zorundasın.',4);sound('static',G.hero.x,G.hero.z,.5)}
+ if(G.energy>40)G.lowWarn=false;
+ if(G.firstKnock===false&&G.elapsed>9){G.firstKnock=true;rhythm(true,POINTS.shoe.x,POINTS.shoe.z);caption('Oyun parkının oradan iki kısa, ardından gecikmiş bir vuruş geldi.',4.6);}
+ if(AUDIO.windGain){const d=threatDist<14?.020:.065;AUDIO.windGain.gain.setTargetAtTime(d,AUDIO.ctx.currentTime,.8)}
+ if(threatDist<7&&Math.floor(G.elapsed*1.8)!==Math.floor((G.elapsed-dt)*1.8))sound('heartbeat',G.hero.x,G.hero.z,.3);
+ G.noise=Math.max(0,G.noise-dt*.32);
+ if(G.elapsed>G.captionUntil)$('caption').classList.remove('show');
+}
+function updateMovement(dt){if(!isPlaying())return;const fw=forward(),rv=right();let mx=stick.x,my=-stick.y;
+ if(keys.KeyW||keys.ArrowUp)my+=1;if(keys.KeyS||keys.ArrowDown)my-=1;if(keys.KeyD||keys.ArrowRight)mx+=1;if(keys.KeyA||keys.ArrowLeft)mx-=1;
+ const ml=Math.hypot(mx,my);if(ml>1){mx/=ml;my/=ml;}
+ const running=(keys.ShiftLeft||keys.ShiftRight||(MOBILE&&ml>.91))&&ml>.1;const speed=(running?4.05:2.75)*(G.chapter===2&&G.route==='river'&&G.hero.z>52&&G.hero.z<73?.70:1);
+ const dx=(rv.x*mx+fw.x*my)*speed*dt,dz=(rv.z*mx+fw.z*my)*speed*dt;
+ G.moved=tryMove(dx,dz);G.sprint=!!running;
+ if(G.moved){stepAccumulator+=dt*(running?3.1:2.1);G.noise=Math.min(3,G.noise+dt*(running?.34:.12));if(G.elapsed-G.lastStep>(running?.31:.53)){G.lastStep=G.elapsed;const p=G.hero;sound('foot',p.x,p.z,G.chapter===2&&G.route==='river'?.82:.38);}}
+ if(G.moved)G.lastMovement=G.elapsed;
+}
+function update(dt){if(!sceneReady)return;
+ if(isPlaying()){
+  G.elapsed+=dt;G.chapterTime+=dt;updateMovement(dt);updateCamera(dt);syncAudioListener();updateAmbient(dt);updateThreat(dt);updateOmen(dt);updateWatch(dt);if(G.mode==='playing'){
+   if(G.elapsed-lastHudAt>.12){lastHudAt=G.elapsed;refreshHUD();updateFocus()}
+   if(G.elapsed-G.lastSave>12){G.lastSave=G.elapsed;save()}
+  }
+ }else{G.moved=false;hideWatchers();updateCamera(dt)}
+}
+function frame(now){const dt=Math.min(.05,Math.max(0,(now-lastFrame)/1000));lastFrame=now;try{update(dt);if(renderer&&scene&&camera&&isPlaying())renderer.render(scene,camera)}catch(e){reportError(e);return}requestAnimationFrame(frame)}
+function hookPointerControls(){const joystick=$('stickBase'),cap=$('stickCap'),lookArea=$('lookZone');
+ joystick.addEventListener('pointerdown',e=>{if(!isPlaying()||joystickPointer!==null)return;joystickPointer=e.pointerId;joystick.setPointerCapture?.(e.pointerId);setStick(e);e.preventDefault()});
+ joystick.addEventListener('pointermove',e=>{if(joystickPointer!==e.pointerId)return;setStick(e);e.preventDefault()});
+ const release=e=>{if(joystickPointer!==e.pointerId)return;joystickPointer=null;stick.x=stick.y=0;cap.style.transform='translate(0,0)';e.preventDefault()};
+ joystick.addEventListener('pointerup',release);joystick.addEventListener('pointercancel',release);joystick.addEventListener('lostpointercapture',()=>{joystickPointer=null;stick.x=stick.y=0;cap.style.transform='translate(0,0)'});
+ function setStick(e){const r=joystick.getBoundingClientRect(),half=Math.min(r.width,r.height)*.37,x=clamp((e.clientX-r.left-r.width/2)/half,-1,1),y=clamp((e.clientY-r.top-r.height/2)/half,-1,1),l=Math.max(1,Math.hypot(x,y));stick.x=x/l;stick.y=y/l;cap.style.transform=`translate(${stick.x*half}px,${stick.y*half}px)`}
+ lookArea.addEventListener('pointerdown',e=>{if(!isPlaying())return;if(!MOBILE&&e.pointerType==='mouse'){
+  if(document.pointerLockElement!==lookArea){try{const attempt=lookArea.requestPointerLock?.();attempt?.catch?.(()=>{});}catch{}}
+  lookPointer=e.pointerId;touchLast.x=e.clientX;touchLast.y=e.clientY;lookArea.setPointerCapture?.(e.pointerId);
+ }else if(lookPointer===null){lookPointer=e.pointerId;touchLast.x=e.clientX;touchLast.y=e.clientY;lookArea.setPointerCapture?.(e.pointerId)}e.preventDefault()});
+ lookArea.addEventListener('pointermove',e=>{if(!isPlaying()||lookPointer!==e.pointerId||document.pointerLockElement===lookArea)return;const dx=e.clientX-touchLast.x,dy=e.clientY-touchLast.y;touchLast.x=e.clientX;touchLast.y=e.clientY;look(dx,dy);e.preventDefault()});
+ const releaseLook=e=>{if(lookPointer===e.pointerId)lookPointer=null};lookArea.addEventListener('pointerup',releaseLook);lookArea.addEventListener('pointercancel',releaseLook);lookArea.addEventListener('lostpointercapture',()=>{lookPointer=null});
+ document.addEventListener('mousemove',e=>{if(!isPlaying()||document.pointerLockElement!==lookArea)return;look(e.movementX,e.movementY)});
+}
+function hookButtons(){
+ $('startButton').addEventListener('click',()=>startGame('fresh'));
+ $('resumeButton').addEventListener('click',()=>startGame('resume'));
+ $('importButton').addEventListener('click',()=>startGame('import'));
+ $('pauseButton').addEventListener('click',pauseGame);
+ $('continueButton').addEventListener('click',unpause);
+ $('chapterContinue').addEventListener('click',unpause);
+ $('bellChoice').addEventListener('click',()=>selectPath('bell'));
+ $('riverChoice').addEventListener('click',()=>selectPath('river'));
+ $('backToMenu').addEventListener('click',()=>{save();mainMenu()});
+ $('deathMenu').addEventListener('click',mainMenu);
+ $('retryButton').addEventListener('click',()=>{initAudio();retryChapter()});
+ $('winRestart').addEventListener('click',()=>startGame('fresh'));
+ $('backButton').addEventListener('click',mainMenu);
+ $('actionButton').addEventListener('click',interaction);
+ $('torchButton').addEventListener('click',toggleTorch);
+ $('batteryButton').addEventListener('click',replaceBattery);
+ $('listenButton').addEventListener('click',listen);
+ $('soundButton').addEventListener('click',()=>{soundEnabled=!soundEnabled;$('soundButton').textContent='SES: '+(soundEnabled?'AÇIK':'KAPALI');if(soundEnabled)initAudio();if(AUDIO.master)AUDIO.master.gain.value=soundEnabled?.19:0;});
+ $('motionButton').addEventListener('click',()=>{bobEnabled=!bobEnabled;$('motionButton').textContent='KAMERA SALINIMI: '+(bobEnabled?'AÇIK':'KAPALI')});
+}
+function hookKeyboard(){const blocked=['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'];
+ document.addEventListener('keydown',e=>{
+  if(blocked.includes(e.code)&&isPlaying())e.preventDefault();keys[e.code]=true;
+  if(e.repeat)return;
+  if(e.code==='Escape'){if(isPlaying())pauseGame();else if(G.mode==='paused')unpause();return;}
+  if(!isPlaying())return;
+  if(e.code==='KeyE'||e.code==='Space')interaction();
+  if(e.code==='KeyF')toggleTorch();
+  if(e.code==='KeyR')replaceBattery();
+  if(e.code==='KeyQ')listen();
+  if(e.code==='KeyP')pauseGame();
+ });
+ document.addEventListener('keyup',e=>{keys[e.code]=false});
+ window.addEventListener('blur',()=>{keys={};resetTouch();if(isPlaying())pauseGame()});
+ document.addEventListener('visibilitychange',()=>{if(document.hidden&&isPlaying())pauseGame();else if(!document.hidden&&AUDIO.ctx&&soundEnabled)AUDIO.ctx.resume?.()});
+ window.addEventListener('pagehide',save);
+ window.addEventListener('resize',()=>{if(sceneReady)setRendererSize()});
+ $('worldCanvas').addEventListener('webglcontextlost',e=>{e.preventDefault();reportError(new Error('Grafik sistemi bağlantısı kesildi. Sayfayı yenileyin.'))});
+}
+async function boot(){hookPointerControls();hookButtons();hookKeyboard();renderDeathEyes();
+ $('startButton').disabled=true;$('startButton').textContent='ORMAN HAZIRLANIYOR…';
+ await initScene();if(!sceneReady)return;
+ // Three.js content is built once; new and resumed games only toggle existing objects.
+ for(let i=0;i<batteryPoints.length;i++){const p=batteryPoints[i],n=group(scene,p.x,.0,p.z);addMesh(n,geo.cylinder,material.brass,0,.36,0,.22,.60,.22);addMesh(n,geo.box,material.dark,0,.72,0,.14,.12,.13);addMesh(n,geo.box,material.toy,0,.36,-.225,.14,.29,.04);batteryMeshes.push(n)}
+ setChapterVisibility();
+ $('startButton').disabled=false;$('startButton').innerHTML='ORMANA GİR <span>↗</span>';
+ $('resumeButton').classList.toggle('hidden',!readSave());$('importButton').classList.toggle('hidden',!readPrior());
+ if(new URLSearchParams(location.search).has('qa'))window.__SONISIK_V24_QA__={getState:()=>JSON.parse(JSON.stringify(serialize())),start:()=>startGame('fresh'),jump:(chapter=1)=>{if(!sceneReady)return;G.route='bell';G.stage=chapter===1?0:chapter;G.chapter=chapter;G.hero={...G.hero,...checkpoint(chapter),yaw:Math.PI,pitch:0};setChapterVisibility();G.mode='playing';setHidden('hud',false);hideScreens();updateObjective();updateCamera(0)},setEnergy:n=>{G.energy=Number(n)},setPosition:(x,z)=>{G.hero.x=x;G.hero.z=z;updateCamera(0)},setFacing:(x,y,z)=>{const dx=x-G.hero.x,dz=z-G.hero.z;G.hero.yaw=Math.atan2(-dx,-dz);G.hero.pitch=clamp(Math.atan2(y-1.72,Math.hypot(dx,dz)),-.85,.82);updateCamera(0)},find:findTarget,light:toggleTorch,listen,action:interaction,update:dt=>update(dt),save,death:die,walkable:canWalk,paths:{pathPark,pathBell,pathRiver,pathEnd},look,watch:()=>JSON.parse(JSON.stringify(G.watch)),forceFault:()=>triggerGlitch(1.2),forceEyes:()=>spawnEyes(G.watch,!G.torch),forceFigure:()=>spawnFigure(G.watch),watchAngles,beamReaches};
+ requestAnimationFrame(frame);
+}
+boot().catch(reportError);
+
+</script>
+</body>
+</html>
